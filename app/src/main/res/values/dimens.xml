@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="loading_indicator_width_and_height">42dp</dimen>
+    <dimen name="error_message_text_size">20sp</dimen>
+    <dimen name="error_message_padding">16dp</dimen>
+</resources>
