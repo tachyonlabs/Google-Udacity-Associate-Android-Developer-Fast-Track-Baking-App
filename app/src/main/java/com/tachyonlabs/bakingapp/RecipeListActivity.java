@@ -1,7 +1,9 @@
 package com.tachyonlabs.bakingapp;
 
 import com.tachyonlabs.bakingapp.databinding.ActivityRecipeListBinding;
-import com.tachyonlabs.bakingapp.models.RecipeCard;
+import com.tachyonlabs.bakingapp.models.RecipeIngredient;
+import com.tachyonlabs.bakingapp.models.Recipe;
+import com.tachyonlabs.bakingapp.models.RecipeStep;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -18,7 +20,7 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeCardA
     private RecipeCardAdapter mRecipeCardAdapter;
     private TextView tvErrorMessageDisplay;
     private ProgressBar pbLoadingIndicator;
-    private RecipeCard[] recipeCards;
+    private Recipe[] recipes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,22 +34,21 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeCardA
         mRecyclerView.setAdapter(mRecipeCardAdapter);
         tvErrorMessageDisplay = mBinding.tvErrorMessageDisplay;
         pbLoadingIndicator = mBinding.pbLoadingIndicator;
-        recipeCards = getTestData();
-        mRecipeCardAdapter.setRecipeCardData(recipeCards);
+        recipes = getTestData();
+        mRecipeCardAdapter.setRecipeCardData(recipes);
     }
 
-    private RecipeCard[] getTestData() {
-        RecipeCard[] cards = new RecipeCard[10];
+    private Recipe[] getTestData() {
+        Recipe[] cards = new Recipe[10];
         for (int i = 1; i < 11; i++) {
-            RecipeCard card = new RecipeCard();
-            card.setTitle("Testing " + i);
+            Recipe card = new Recipe(i, "Testing " + i, new RecipeIngredient[1], new RecipeStep[1], i, "");
             cards[i - 1] = card;
         }
         return cards;
     }
 
     @Override
-    public void onClick(RecipeCard recipeCard) {
-        Toast.makeText(this, recipeCard.getTitle(), Toast.LENGTH_LONG).show();
+    public void onClick(Recipe recipe) {
+        Toast.makeText(this, recipe.getName(), Toast.LENGTH_LONG).show();
     }
 }

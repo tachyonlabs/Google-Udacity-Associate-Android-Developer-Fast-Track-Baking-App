@@ -5,14 +5,14 @@ When completed, this will be my submission for the third project in the Google/U
 Meets Specifications:
 
 * [ ] App should display recipes from provided network resource.
-* [ ] App should allow navigation between individual recipes and recipe steps.
-* [ ] App uses RecyclerView and can handle recipe steps that include videos or images.
+* [ ] App should allow navigation between individual recipes and recipe recipeSteps.
+* [ ] App uses RecyclerView and can handle recipe recipeSteps that include videos or images.
 * [ ] App conforms to common standards found in the [Android Nanodegree General Project Guidelines](http://udacity.github.io/android-nanodegree-guidelines/core.html).
 
 ### Components and Libraries
 Meets Specifications:
 
-* [ ] Application uses Master Detail Flow to display recipe steps and navigation between them.
+* [ ] Application uses Master Detail Flow to display recipe recipeSteps and navigation between them.
 * [ ] Application uses Exoplayer to display videos.
 * [ ] Application properly initializes and releases video assets when appropriate.
 * [ ] Application should properly retrieve media assets from the provided network links. It should properly handle network requests.
@@ -23,6 +23,6 @@ Meets Specifications:
 Meets Specifications:
 
 * [ ] Application has a companion homescreen widget.
-* [ ] Widget displays ingredient list for desired recipe.
+* [ ] Widget displays name list for desired recipe.
 
 ### Notes
