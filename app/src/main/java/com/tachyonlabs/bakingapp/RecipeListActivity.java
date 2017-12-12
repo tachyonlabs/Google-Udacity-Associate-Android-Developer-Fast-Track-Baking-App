@@ -39,9 +39,10 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeCardA
     }
 
     private Recipe[] getTestData() {
-        Recipe[] cards = new Recipe[10];
-        for (int i = 1; i < 11; i++) {
-            Recipe card = new Recipe(i, "Testing " + i, new RecipeIngredient[1], new RecipeStep[1], i, "");
+        String[] names = {"Nutella Pie", "Brownies", "Yellow Cake", "Cheesecake"};
+        Recipe[] cards = new Recipe[8];
+        for (int i = 1; i < 9; i++) {
+            Recipe card = new Recipe(i, names[(i - 1) % 4], new RecipeIngredient[1], new RecipeStep[1], i, "");
             cards[i - 1] = card;
         }
         return cards;
