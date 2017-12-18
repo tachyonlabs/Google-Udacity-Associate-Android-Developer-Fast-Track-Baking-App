@@ -1,18 +1,22 @@
 package com.tachyonlabs.bakingapp;
 
 import com.tachyonlabs.bakingapp.databinding.ActivityRecipeListBinding;
-import com.tachyonlabs.bakingapp.models.RecipeIngredient;
 import com.tachyonlabs.bakingapp.models.Recipe;
-import com.tachyonlabs.bakingapp.models.RecipeStep;
+import com.tachyonlabs.bakingapp.utilities.NetworkUtils;
+import com.tachyonlabs.bakingapp.utilities.RecipeJsonUtils;
 
 import android.databinding.DataBindingUtil;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.net.URL;
 
 public class RecipeListActivity extends AppCompatActivity implements RecipeCardAdapter.RecipeCardAdapterOnClickHandler {
     ActivityRecipeListBinding mBinding;
@@ -21,6 +25,8 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeCardA
     private TextView tvErrorMessageDisplay;
     private ProgressBar pbLoadingIndicator;
     private Recipe[] recipes;
+
+    private final static String TAG = RecipeListActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,18 +40,66 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeCardA
         mRecyclerView.setAdapter(mRecipeCardAdapter);
         tvErrorMessageDisplay = mBinding.tvErrorMessageDisplay;
         pbLoadingIndicator = mBinding.pbLoadingIndicator;
-        recipes = getTestData();
-        mRecipeCardAdapter.setRecipeCardData(recipes);
+        if (savedInstanceState == null) {
+            loadRecipes();
+        } else {
+            recipes = (Recipe[]) (savedInstanceState.getParcelableArray("recipes"));
+            mRecipeCardAdapter.setRecipeCardData(recipes);
+        }
     }
 
-    private Recipe[] getTestData() {
-        String[] names = {"Nutella Pie", "Brownies", "Yellow Cake", "Cheesecake"};
-        Recipe[] cards = new Recipe[8];
-        for (int i = 1; i < 9; i++) {
-            Recipe card = new Recipe(i, names[(i - 1) % 4], new RecipeIngredient[1], new RecipeStep[1], i, "");
-            cards[i - 1] = card;
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArray("recipes", recipes);
+        super.onSaveInstanceState(outState);
+    }
+
+    private void loadRecipes() {
+        new FetchRecipesTask().execute();
+    }
+
+    public class FetchRecipesTask extends AsyncTask<String, Void, Recipe[]> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pbLoadingIndicator.setVisibility(View.VISIBLE);
         }
-        return cards;
+
+        @Override
+        protected Recipe[] doInBackground(String... params) {
+            try {
+                URL recipesJsonUrl = NetworkUtils.getRecipesJsonUrl();
+                String jsonRecipesResponse = NetworkUtils.getResponseFromHttpUrl(recipesJsonUrl);
+                return RecipeJsonUtils.getRecipesFromJson(RecipeListActivity.this, jsonRecipesResponse);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Recipe[] theRecipes) {
+            pbLoadingIndicator.setVisibility(View.INVISIBLE);
+            if (theRecipes != null) {
+                recipes = theRecipes;
+                showRecipeCards();
+                mRecipeCardAdapter.setRecipeCardData(recipes);
+            } else {
+                showErrorMessage(getString(R.string.no_data_received));
+            }
+        }
+    }
+
+    private void showRecipeCards() {
+        tvErrorMessageDisplay.setVisibility(View.INVISIBLE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    private void showErrorMessage(String errorMessage) {
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        tvErrorMessageDisplay.setText(errorMessage);
+        tvErrorMessageDisplay.setVisibility(View.VISIBLE);
     }
 
     @Override

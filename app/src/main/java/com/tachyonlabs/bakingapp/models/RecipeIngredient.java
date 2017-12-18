@@ -1,9 +1,31 @@
 package com.tachyonlabs.bakingapp.models;
 
-public class RecipeIngredient {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class RecipeIngredient implements Parcelable {
+    public static final Parcelable.Creator<RecipeIngredient> CREATOR
+            = new Parcelable.Creator<RecipeIngredient>() {
+
+        @Override
+        public RecipeIngredient createFromParcel(Parcel in) {
+            return new RecipeIngredient(in);
+        }
+
+        @Override
+        public RecipeIngredient[] newArray(int size) {
+            return new RecipeIngredient[size];
+        }
+    };
     private String name;
     private int quantity;
     private String measurementUnit;
+
+    private RecipeIngredient(Parcel in) {
+        name = in.readString();
+        quantity = in.readInt();
+        measurementUnit = in.readString();
+    }
 
     public RecipeIngredient(String ingredient, int quantity, String measure) {
         this.name = ingredient;
@@ -33,5 +55,17 @@ public class RecipeIngredient {
 
     public void setMeasurementUnit(String measurementUnit) {
         this.measurementUnit = measurementUnit;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeInt(quantity);
+        parcel.writeString(measurementUnit);
     }
 }
