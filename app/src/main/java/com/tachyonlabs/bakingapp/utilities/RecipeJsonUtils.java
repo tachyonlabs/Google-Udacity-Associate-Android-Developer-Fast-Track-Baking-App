@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.util.Log;
 
 public class RecipeJsonUtils {
     private static final String TAG = RecipeJsonUtils.class.getSimpleName();
@@ -22,19 +23,49 @@ public class RecipeJsonUtils {
             String recipeName = recipe.getString("name");
             int recipeServings = recipe.getInt("servings");
 
-            Recipe card = new Recipe(i, recipeName, new RecipeIngredient[1], new RecipeStep[1], recipeServings, "");
+            JSONArray ingredients = recipe.getJSONArray("ingredients");
+            RecipeIngredient[] recipeIngredients = getIngredientsFromJson(context, ingredients);
+
+            JSONArray steps = recipe.getJSONArray("steps");
+            RecipeStep[] recipeSteps = getStepsFromJson(context, steps);
+            Log.d(TAG, "recipeSteps length: " + recipeSteps.length);
+
+            Recipe card = new Recipe(i, recipeName, recipeIngredients, recipeSteps, recipeServings, "");
             recipes[i] = card;
         }
-//            Recipe recipe = new Recipe();
-//            JSONObject result = resultsArray.getJSONObject(i);
-//            movie.setTitle(result.getString("title"));
-//            movie.setOverview(result.getString("overview"));
-//            movie.setPosterUrl(result.getString("poster_path"));
-//            movie.setReleaseDate(result.getString("release_date"));
-//            movie.setUserRating(String.valueOf(result.getDouble("vote_average")));
-//            movie.setId(String.valueOf((int) result.getDouble("id")));
-//            recipes[i] = recipe;
         return recipes;
+    }
+
+    private static RecipeIngredient[] getIngredientsFromJson(Context context, JSONArray ingredientsArray) throws JSONException {
+        RecipeIngredient[] ingredients = new RecipeIngredient[ingredientsArray.length()];
+
+        for (int i = 0; i < ingredientsArray.length(); i++) {
+            JSONObject ingredientJson = ingredientsArray.getJSONObject(i);
+            String ingredientName = ingredientJson.getString("ingredient");
+            int ingredientQuantity = ingredientJson.getInt("quantity");
+            String ingredientMeasurementUnit = ingredientJson.getString("measure");
+
+            RecipeIngredient ingredient = new RecipeIngredient(ingredientName, ingredientQuantity, ingredientMeasurementUnit);
+            ingredients[i] = ingredient;
+        }
+        return ingredients;
+    }
+
+    private static RecipeStep[] getStepsFromJson(Context context, JSONArray stepsArray) throws JSONException {
+        RecipeStep[] steps = new RecipeStep[stepsArray.length()];
+
+        for (int i = 0; i < stepsArray.length(); i++) {
+            JSONObject stepJson = stepsArray.getJSONObject(i);
+            int stepId = stepJson.getInt("id");
+            String stepShortDescription = stepJson.getString("shortDescription");
+            String stepDescription = stepJson.getString("description");
+            String stepVideoUrl = stepJson.getString("videoURL");
+            String stepThumbnailUrl = stepJson.getString("thumbnailURL");
+
+            RecipeStep step = new RecipeStep(stepId, stepShortDescription, stepDescription, stepVideoUrl, stepThumbnailUrl);
+            steps[i] = step;
+        }
+        return steps;
     }
 
 }

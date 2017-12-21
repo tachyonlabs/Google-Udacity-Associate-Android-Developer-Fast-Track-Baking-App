@@ -17,9 +17,27 @@ public class RecipeCardAdapter extends RecyclerView.Adapter<RecipeCardAdapter.Re
     private static final String TAG = RecipeCardAdapter.class.getSimpleName();
     final private RecipeCardAdapterOnClickHandler mClickHandler;
     private Recipe[] mRecipes;
+    private HashMap<String, String> photoUrls = new HashMap<>();
 
     public RecipeCardAdapter(RecipeCardAdapterOnClickHandler recipeCardAdapterOnClickHandler) {
         mClickHandler = recipeCardAdapterOnClickHandler;
+        /*
+        The JSON for the recipes contains URLs for videos illustrating some of the steps, but no
+        links to photos. I would say that in "real life" no one who went to all the trouble to make
+        multiple videos for each of their recipes would neglect the very basic step of taking at
+        least one photograph of the finished products, so to make this app look more like an actual
+        product as well, I am using the following Flickr photos, which the photographers have made
+        available for use under the Creative Commons license:
+
+        * For Nutella Pie: "[I invented this](https://www.flickr.com/photos/leedav/4328677446/)", by [Lee Davenport](https://www.flickr.com/people/leedav/)
+        * For Brownies: "[Chocolate-Mint Brownies](https://www.flickr.com/photos/theryn/5727350257/)", by [Theryn Fleming](https://www.flickr.com/people/theryn/)
+        * For Yellow Cake: "[yellow cake](https://www.flickr.com/photos/stuart_spivack/2584637478/)", by [Stuart Spivack](https://www.flickr.com/people/stuart_spivack/)
+        * For Cheesecake: "[Cheesecake Supreme](https://www.flickr.com/photos/cuttingboard/2699220126)", by [Emily Carlin](https://www.flickr.com/people/cuttingboard/)
+        */
+        photoUrls.put("Nutella Pie", "https://c1.staticflickr.com/5/4001/4328677446_ecdd0479a3_z.jpg");
+        photoUrls.put("Brownies", "https://c2.staticflickr.com/6/5224/5727350257_72a6008cc9_z.jpg");
+        photoUrls.put("Yellow Cake", "https://c2.staticflickr.com/4/3177/2584637478_bc89ae4a1d_z.jpg");
+        photoUrls.put("Cheesecake", "https://c2.staticflickr.com/4/3015/2699220126_cc964a2cd2_z.jpg");
     }
 
     @Override
@@ -39,24 +57,7 @@ public class RecipeCardAdapter extends RecyclerView.Adapter<RecipeCardAdapter.Re
     public void onBindViewHolder(RecipeCardAdapterViewHolder holder, int position) {
         String recipeTitle = mRecipes[position].getName();
         String recipeServings = mRecipes[position].getServings() + " serving" + (mRecipes[position].getServings() > 1 ? "s" : "");
-        /*
-        The JSON for the recipes contains URLs for videos illustrating some of the steps, but no
-        links to photos. I would say that in "real life" no one who went to all the trouble to make
-        multiple videos for each of their recipes would neglect the very basic step of taking at
-        least one photograph of the finished products, so to make this app look more like an actual
-        product as well, I am using the following Flickr photos, which the photographers have made
-        available for use under the Creative Commons license:
 
-        * For Nutella Pie: "[I invented this](https://www.flickr.com/photos/leedav/4328677446/)", by [Lee Davenport](https://www.flickr.com/people/leedav/)
-        * For Brownies: "[Chocolate-Mint Brownies](https://www.flickr.com/photos/theryn/5727350257/)", by [Theryn Fleming](https://www.flickr.com/people/theryn/)
-        * For Yellow Cake: "[yellow cake](https://www.flickr.com/photos/stuart_spivack/2584637478/)", by [Stuart Spivack](https://www.flickr.com/people/stuart_spivack/)
-        * For Cheesecake: "[Cheesecake Supreme](https://www.flickr.com/photos/cuttingboard/2699220126)", by [Emily Carlin](https://www.flickr.com/people/cuttingboard/)
-        */
-        HashMap<String, String> photoUrls = new HashMap<>();
-        photoUrls.put("Nutella Pie", "https://c1.staticflickr.com/5/4001/4328677446_ecdd0479a3_z.jpg");
-        photoUrls.put("Brownies", "https://c2.staticflickr.com/6/5224/5727350257_72a6008cc9_z.jpg");
-        photoUrls.put("Yellow Cake", "https://c2.staticflickr.com/4/3177/2584637478_bc89ae4a1d_z.jpg");
-        photoUrls.put("Cheesecake", "https://c2.staticflickr.com/4/3015/2699220126_cc964a2cd2_z.jpg");
         // TODO make placeholder and error images later too
         Picasso.with(holder.ivRecipePhoto.getContext())
                 .load(photoUrls.get(recipeTitle))

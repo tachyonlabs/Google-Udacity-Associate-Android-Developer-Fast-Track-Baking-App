@@ -23,8 +23,6 @@ public class NetworkUtils {
     }
 
     public static String getResponseFromHttpUrl(URL url) throws IOException {
-        // get TMDb JSON data
-
         // set the connection timeout to 5 seconds and the read timeout to 10 seconds
         // see https://eventuallyconsistent.net/2011/08/02/working-with-urlconnection-and-timeouts/
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();

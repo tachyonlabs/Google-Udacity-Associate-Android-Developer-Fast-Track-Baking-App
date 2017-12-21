@@ -4,7 +4,7 @@ When completed, this will be my submission for the third project in the Google/U
 ### General App Usage
 Meets Specifications:
 
-* [ ] App should display recipes from provided network resource.
+* [x] App should display recipes from provided network resource.
 * [ ] App should allow navigation between individual recipes and recipe recipeSteps.
 * [ ] App uses RecyclerView and can handle recipe recipeSteps that include videos or images.
 * [ ] App conforms to common standards found in the [Android Nanodegree General Project Guidelines](http://udacity.github.io/android-nanodegree-guidelines/core.html).
@@ -17,7 +17,7 @@ Meets Specifications:
 * [ ] Application properly initializes and releases video assets when appropriate.
 * [ ] Application should properly retrieve media assets from the provided network links. It should properly handle network requests.
 * [ ] Application makes use of Espresso to test aspects of the UI.
-* [ ] Application sensibly utilizes a third-party library to enhance the app's features. That could be helper library to interface with ContentProviders if you choose to store the recipes, a UI binding library to avoid writing findViewById a bunch of times, or something similar.
+* [x] Application sensibly utilizes a third-party library to enhance the app's features. That could be helper library to interface with ContentProviders if you choose to store the recipes, a UI binding library to avoid writing findViewById a bunch of times, or something similar.
 
 ### Homescreen Widget
 Meets Specifications:
@@ -25,7 +25,7 @@ Meets Specifications:
 * [ ] Application has a companion homescreen widget.
 * [ ] Widget displays name list for desired recipe.
 
-### Open-source libraries used
+### Third-party libraries used
 
 * [Picasso](http://square.github.io/picasso/) - Image loading and caching library for Android
 
