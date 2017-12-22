@@ -1,5 +1,7 @@
 # Baking App
-When completed, this will be my submission for the third project in the Google/Udacity "Associate Android Developer Fast Track" course, but right now I just created the project and the repo.
+When completed, this will be my submission for the third project in the Google/Udacity "Associate Android Developer Fast Track" course.
+
+![A screenshot of my Baking Time App](https://raw.githubusercontent.com/tachyonlabs/Google-Udacity-Associate-Android-Developer-Fast-Track-Baking-App/master/baking-time-screenshot.png "A screenshot of my Baking Time App")
 
 ### General App Usage
 Meets Specifications:
