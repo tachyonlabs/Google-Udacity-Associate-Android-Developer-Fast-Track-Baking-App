@@ -56,7 +56,8 @@ public class RecipeCardAdapter extends RecyclerView.Adapter<RecipeCardAdapter.Re
     @Override
     public void onBindViewHolder(RecipeCardAdapterViewHolder holder, int position) {
         String recipeTitle = mRecipes[position].getName();
-        String recipeServings = mRecipes[position].getServings() + " serving" + (mRecipes[position].getServings() > 1 ? "s" : "");
+        String recipeIngredients = mRecipes[position].getIngredientsCount()  + " ingredient" + (mRecipes[position].getIngredientsCount() > 1 ? "s" : "");
+        String recipeSteps = mRecipes[position].getStepsCount()  + " step" + (mRecipes[position].getStepsCount() > 1 ? "s" : "");
 
         // TODO make placeholder and error images later too
         Picasso.with(holder.ivRecipePhoto.getContext())
@@ -65,7 +66,8 @@ public class RecipeCardAdapter extends RecyclerView.Adapter<RecipeCardAdapter.Re
                 .error(R.drawable.ic_launcher_foreground)
                 .into(holder.ivRecipePhoto);
         holder.tvRecipeName.setText(recipeTitle);
-        holder.tvRecipeServings.setText(recipeServings);
+        holder.tvRecipeIngredients.setText(recipeIngredients);
+        holder.tvRecipeSteps.setText(recipeSteps);
     }
 
     @Override
@@ -89,13 +91,15 @@ public class RecipeCardAdapter extends RecyclerView.Adapter<RecipeCardAdapter.Re
     public class RecipeCardAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final ImageView ivRecipePhoto;
         public final TextView tvRecipeName;
-        public final TextView tvRecipeServings;
+        public final TextView tvRecipeIngredients;
+        public final TextView tvRecipeSteps;
 
         public RecipeCardAdapterViewHolder(View itemView) {
             super(itemView);
             ivRecipePhoto = (ImageView) itemView.findViewById(R.id.iv_recipe_photo);
             tvRecipeName = (TextView) itemView.findViewById(R.id.tv_recipe_name);
-            tvRecipeServings = (TextView) itemView.findViewById(R.id.tv_recipe_servings);
+            tvRecipeIngredients = (TextView) itemView.findViewById(R.id.tv_recipe_ingredients);
+            tvRecipeSteps = (TextView) itemView.findViewById(R.id.tv_recipe_steps);
             itemView.setOnClickListener(this);
         }
 

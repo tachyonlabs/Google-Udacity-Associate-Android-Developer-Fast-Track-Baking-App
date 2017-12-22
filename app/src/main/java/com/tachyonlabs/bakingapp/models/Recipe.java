@@ -66,12 +66,20 @@ public class Recipe implements Parcelable {
         this.ingredients = recipeIngredients;
     }
 
+    public int getIngredientsCount() {
+        return ingredients.length;
+    }
+
     public RecipeStep[] getSteps() {
         return steps;
     }
 
     public void setSteps(RecipeStep[] recipeSteps) {
         this.steps = recipeSteps;
+    }
+
+    public int getStepsCount() {
+        return steps.length;
     }
 
     public int getServings() {
