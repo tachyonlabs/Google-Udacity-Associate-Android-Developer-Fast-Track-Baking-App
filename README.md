@@ -33,7 +33,7 @@ Meets Specifications:
 
 ### Photos used under Creative Commons license
 
-The JSON for the recipes contains URLs for videos illustrating some of the steps, but no links to photos. I would say that in "real life" no one who went to all the trouble to make multiple videos for each of their recipes would neglect the very basic step of taking at least one photograph of the finished products, so to make this app look more like an actual product as well, I am using the following Flickr photos, which the photographers have made available for use under the Creative Commons license:
+The JSON for the recipes contains URLs for videos illustrating some of the steps, but no links to photos, and no recipe descriptions. I would say that in "real life" no one who went to all the trouble to make multiple videos for each of their recipes would neglect the very basic steps of taking at least one photograph and writing a short blurb/tagline for each of the finished products, so to make this app look more like an actual product as well, I wrote some blurbs, and am using the following Flickr photos, which the photographers have made available for use under the Creative Commons license:
 
 * For Nutella Pie: "[I invented this](https://www.flickr.com/photos/leedav/4328677446/)", by [Lee Davenport](https://www.flickr.com/people/leedav/)
 * For Brownies: "[Chocolate-Mint Brownies](https://www.flickr.com/photos/theryn/5727350257/)", by [Theryn Fleming](https://www.flickr.com/people/theryn/)

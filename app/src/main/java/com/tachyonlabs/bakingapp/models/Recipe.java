@@ -23,6 +23,7 @@ public class Recipe implements Parcelable {
     private RecipeStep[] steps;
     private int servings;
     private String image;
+    private String blurb;
 
     private Recipe(Parcel in) {
         id = in.readInt();
@@ -31,15 +32,17 @@ public class Recipe implements Parcelable {
         steps = in.createTypedArray(RecipeStep.CREATOR);
         servings = in.readInt();
         image = in.readString();
+        blurb = in.readString();
     }
 
-    public Recipe(int id, String name, RecipeIngredient[] recipeIngredients, RecipeStep[] recipeSteps, int servings, String image) {
+    public Recipe(int id, String name, RecipeIngredient[] recipeIngredients, RecipeStep[] recipeSteps, int servings, String image, String blurb) {
         this.id = id;
         this.name = name;
         this.ingredients = recipeIngredients;
         this.steps = recipeSteps;
         this.servings = servings;
         this.image = image;
+        this.blurb = blurb;
     }
 
     public int getId() {
@@ -98,6 +101,14 @@ public class Recipe implements Parcelable {
         this.image = image;
     }
 
+    public String getBlurb() {
+        return blurb;
+    }
+
+    public void setBlurb(String blurb) {
+        this.blurb = blurb;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -111,5 +122,6 @@ public class Recipe implements Parcelable {
         parcel.writeTypedArray(steps, flags);
         parcel.writeInt(servings);
         parcel.writeString(image);
+        parcel.writeString(blurb);
     }
 }
