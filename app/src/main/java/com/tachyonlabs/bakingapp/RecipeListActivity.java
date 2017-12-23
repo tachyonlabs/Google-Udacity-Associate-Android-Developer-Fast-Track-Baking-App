@@ -5,6 +5,7 @@ import com.tachyonlabs.bakingapp.models.Recipe;
 import com.tachyonlabs.bakingapp.utilities.NetworkUtils;
 import com.tachyonlabs.bakingapp.utilities.RecipeJsonUtils;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,7 +15,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.net.URL;
 
@@ -104,6 +104,9 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeCardA
 
     @Override
     public void onClick(Recipe recipe) {
-        Toast.makeText(this, recipe.getName(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, recipe.getName(), Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, RecipeDetailActivity.class);
+        intent.putExtra("recipe", recipe);
+        startActivity(intent);
     }
 }

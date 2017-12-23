@@ -57,6 +57,10 @@ public class RecipeIngredient implements Parcelable {
         this.measurementUnit = measurementUnit;
     }
 
+    public String getQuantityUnitNameString() {
+        return String.format("%s %s %s", getQuantity(), getMeasurementUnit().toLowerCase(), getName());
+    }
+
     @Override
     public int describeContents() {
         return 0;

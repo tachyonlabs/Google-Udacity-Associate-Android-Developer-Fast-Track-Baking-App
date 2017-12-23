@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+        <ImageView
+                android:id="@+id/iv_recipe_detail_photo"
+                android:layout_width="108dp"
+                android:layout_height="96dp"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:background="@color/colorPrimary"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_recipe_detail_name"
+                android:textSize="48sp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                tools:text="Recipe Name"
+                tools:fontFamily="sans-serif"
+                android:fontFamily="@font/la_belle_aurore"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@id/iv_recipe_detail_photo"/>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_ingredients_list"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/tv_recipe_detail_name"
+                android:textSize="16sp"
+                android:lineSpacingMultiplier="1.1"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="18dp"/>
+
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/tv_ingredients_list">
+
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_recipe_steps"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimaryPale"/>
+        </FrameLayout>
+    </RelativeLayout>
+</layout>
