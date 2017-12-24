@@ -1,6 +1,7 @@
-package com.tachyonlabs.bakingapp;
+package com.tachyonlabs.bakingapp.adapters;
 
 import com.squareup.picasso.Picasso;
+import com.tachyonlabs.bakingapp.R;
 import com.tachyonlabs.bakingapp.models.Recipe;
 
 import android.content.Context;
@@ -68,9 +69,9 @@ public class RecipeCardAdapter extends RecyclerView.Adapter<RecipeCardAdapter.Re
     }
 
     public class RecipeCardAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public final ImageView ivRecipePhoto;
-        public final TextView tvRecipeName;
-        public final TextView tvRecipeBlurb;
+        final ImageView ivRecipePhoto;
+        final TextView tvRecipeName;
+        final TextView tvRecipeBlurb;
 
         public RecipeCardAdapterViewHolder(View itemView) {
             super(itemView);

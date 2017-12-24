@@ -1,5 +1,6 @@
 package com.tachyonlabs.bakingapp;
 
+import com.tachyonlabs.bakingapp.adapters.RecipeCardAdapter;
 import com.tachyonlabs.bakingapp.databinding.ActivityRecipeListBinding;
 import com.tachyonlabs.bakingapp.models.Recipe;
 import com.tachyonlabs.bakingapp.utilities.NetworkUtils;
