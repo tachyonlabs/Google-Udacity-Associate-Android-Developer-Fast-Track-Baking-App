@@ -105,7 +105,6 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeCardA
 
     @Override
     public void onClick(Recipe recipe) {
-        //Toast.makeText(this, recipe.getName(), Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, RecipeDetailActivity.class);
         intent.putExtra("recipe", recipe);
         startActivity(intent);

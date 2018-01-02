@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:id="@+id/xo_recipe_step_videos"/>
+
+        <TextView
+                android:id="@+id/tv_step_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/xo_recipe_step_videos"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="20dp"
+                android:textSize="20sp"
+                android:lineSpacingMultiplier="1.1"/>
+
+        <View
+                android:layout_width="4dp"
+                android:layout_height="0dp"
+                android:id="@+id/v_center"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"/>
+
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_previous_step"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentBottom="true"
+                android:layout_toLeftOf="@id/v_center"
+                android:text="Previous"
+                android:textColor="@android:color/white"
+                android:background="@color/colorPrimary"
+                android:drawableLeft="@drawable/ic_action_arrow_back"
+                android:onClick="nextOrPreviousStep"/>
+
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_next_step"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@id/v_center"
+                android:text="Next"
+                android:textColor="@android:color/white"
+                android:background="@color/colorPrimary"
+                android:drawableRight="@drawable/ic_action_arrow_forward"
+                android:onClick="nextOrPreviousStep"/>
+
+    </RelativeLayout>
+</layout>

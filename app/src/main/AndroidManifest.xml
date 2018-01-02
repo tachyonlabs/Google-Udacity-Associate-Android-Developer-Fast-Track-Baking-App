@@ -11,7 +11,9 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".RecipeListActivity">
+        <activity
+                android:name=".RecipeListActivity"
+                android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -20,12 +22,24 @@
         </activity>
         <activity
                 android:name=".RecipeDetailActivity"
+                android:launchMode="singleTop"
                 android:parentActivityName=".RecipeListActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".RecipeListActivity"/>
         </activity>
-        <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
+        <activity
+                android:name=".RecipeStepActivity"
+                android:parentActivityName=".RecipeDetailActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".RecipeDetailActivity"/>
+        </activity>
+
+        <meta-data
+                android:name="preloaded_fonts"
+                android:resource="@array/preloaded_fonts"/>
+
     </application>
 
 </manifest>

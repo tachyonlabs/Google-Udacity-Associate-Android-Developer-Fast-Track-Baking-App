@@ -58,7 +58,12 @@ public class RecipeIngredient implements Parcelable {
     }
 
     public String getQuantityUnitNameString() {
-        return String.format("%s %s %s", getQuantity(), getMeasurementUnit().toLowerCase(), getName());
+        // for some reason the JSON uses "UNIT" to indicate no unit
+        if (getMeasurementUnit().equals("UNIT")) {
+            return String.format("%s %s", getQuantity(), getName());
+        } else {
+            return String.format("%s %s %s", getQuantity(), getMeasurementUnit().toLowerCase(), getName());
+        }
     }
 
     @Override

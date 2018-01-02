@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools">
+
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/sv_recipe_detail">
+
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
             <ImageView
                     android:id="@+id/iv_recipe_detail_photo"
                     android:layout_width="144dp"
@@ -56,18 +59,13 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="18dp"/>
 
-            <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_ingredients_list">
-
                 <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_recipe_steps"
+                        android:layout_below="@id/tv_ingredients_list"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingTop="24dp"
                         android:background="@color/colorPrimaryPale"/>
-            </FrameLayout>
         </RelativeLayout>
     </ScrollView>
 </layout>

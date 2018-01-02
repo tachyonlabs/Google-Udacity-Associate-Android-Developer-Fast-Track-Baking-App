@@ -9,7 +9,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.HashMap;
 
@@ -39,8 +38,8 @@ public class RecipeJsonUtils {
         photoUrls.put("Yellow Cake",  new String[] {"https://c2.staticflickr.com/4/3177/2584637478_bc89ae4a1d_z.jpg", "An updated version of the beloved classic."});
         photoUrls.put("Cheesecake",  new String[] {"https://c2.staticflickr.com/4/3015/2699220126_cc964a2cd2_z.jpg", "My grandmother's prize-winning recipe."});
 
-        for (int i = 0; i < recipesArray.length(); i++) {
-            JSONObject recipe = recipesArray.getJSONObject(i);
+        for (int id = 0; id < recipesArray.length(); id++) {
+            JSONObject recipe = recipesArray.getJSONObject(id);
             String recipeName = recipe.getString("name");
             int recipeServings = recipe.getInt("servings");
 
@@ -49,13 +48,18 @@ public class RecipeJsonUtils {
 
             JSONArray steps = recipe.getJSONArray("steps");
             RecipeStep[] recipeSteps = getStepsFromJson(context, steps);
-            Log.d(TAG, "recipeSteps length: " + recipeSteps.length);
 
             String photoUrl = photoUrls.get(recipeName)[0];
             String blurb = photoUrls.get(recipeName)[1];
 
-            Recipe card = new Recipe(i, recipeName, recipeIngredients, recipeSteps, recipeServings, photoUrl, blurb);
-            recipes[i] = card;
+            Recipe card = new Recipe(id,
+                    recipeName,
+                    recipeIngredients,
+                    recipeSteps,
+                    recipeServings,
+                    photoUrl,
+                    blurb);
+            recipes[id] = card;
         }
         return recipes;
     }
@@ -69,7 +73,9 @@ public class RecipeJsonUtils {
             int ingredientQuantity = ingredientJson.getInt("quantity");
             String ingredientMeasurementUnit = ingredientJson.getString("measure");
 
-            RecipeIngredient ingredient = new RecipeIngredient(ingredientName, ingredientQuantity, ingredientMeasurementUnit);
+            RecipeIngredient ingredient = new RecipeIngredient(ingredientName,
+                    ingredientQuantity,
+                    ingredientMeasurementUnit);
             ingredients[i] = ingredient;
         }
         return ingredients;
@@ -85,8 +91,17 @@ public class RecipeJsonUtils {
             String stepDescription = stepJson.getString("description");
             String stepVideoUrl = stepJson.getString("videoURL");
             String stepThumbnailUrl = stepJson.getString("thumbnailURL");
+            // There's one step where the video URL is in the wrong JSON field
+            if (stepVideoUrl.equals("") && stepThumbnailUrl.endsWith(".mp4")) {
+                stepVideoUrl = stepThumbnailUrl;
+                stepThumbnailUrl = "";
+            }
 
-            RecipeStep step = new RecipeStep(stepId, stepShortDescription, stepDescription, stepVideoUrl, stepThumbnailUrl);
+            RecipeStep step = new RecipeStep(stepId,
+                    stepShortDescription,
+                    stepDescription,
+                    stepVideoUrl,
+                    stepThumbnailUrl);
             steps[i] = step;
         }
         return steps;

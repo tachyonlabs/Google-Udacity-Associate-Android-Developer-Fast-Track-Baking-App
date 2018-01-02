@@ -35,9 +35,11 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.Re
     @Override
     public void onBindViewHolder(RecipeStepAdapter.RecipeStepAdapterViewHolder holder, int position) {
         int recipeStepNumber = mRecipeSteps[position].getId();
+        // the recipe introduction gets grouped with the steps but doesn't have a step number in its description
+        String stepNumberString = recipeStepNumber > 0 ? String.format("Step %d: ", recipeStepNumber) : "";
         String recipeShortDescription = mRecipeSteps[position].getShortDescription();
 
-        holder.tvStepNumberAndShortDescription.setText(String.format("Step %d: %s", recipeStepNumber + 1, recipeShortDescription));
+        holder.tvStepNumberAndShortDescription.setText(String.format(stepNumberString + recipeShortDescription));
     }
 
     @Override
@@ -55,7 +57,7 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.Re
     }
 
     public interface RecipeStepAdapterOnClickHandler {
-        void onClick(RecipeStep recipeStep);
+        void onClick(int whichStep);
     }
 
     public class RecipeStepAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -69,8 +71,8 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.Re
 
         @Override
         public void onClick(View view) {
-            RecipeStep recipeStep = mRecipeSteps[getAdapterPosition()];
-            mClickHandler.onClick(recipeStep);
+            int whichStep = getAdapterPosition();
+            mClickHandler.onClick(whichStep);
         }
     }
 }
