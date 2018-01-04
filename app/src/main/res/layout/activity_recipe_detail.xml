@@ -59,13 +59,20 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="18dp"/>
 
-                <android.support.v7.widget.RecyclerView
-                        android:id="@+id/rv_recipe_steps"
-                        android:layout_below="@id/tv_ingredients_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingTop="24dp"
-                        android:background="@color/colorPrimaryPale"/>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="11dp"
+                    android:layout_below="@id/tv_ingredients_list"
+                    android:id="@+id/v_ingredients_drop_shadow"
+                    android:background="@drawable/drop_shadow"/>
+
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_recipe_steps"
+                    android:layout_below="@id/v_ingredients_drop_shadow"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingTop="13dp"
+                    android:background="@color/colorPrimaryPale"/>
         </RelativeLayout>
     </ScrollView>
 </layout>

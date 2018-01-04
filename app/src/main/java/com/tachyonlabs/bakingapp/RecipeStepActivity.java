@@ -1,13 +1,18 @@
 package com.tachyonlabs.bakingapp;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
@@ -27,20 +32,20 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class RecipeStepActivity extends AppCompatActivity {
+public class RecipeStepActivity extends AppCompatActivity implements ExoPlayer.EventListener {
     private static final String TAG = RecipeStepActivity.class.getSimpleName();
+    private static MediaSessionCompat mediaSession;
     ActivityRecipeStepBinding mBinding;
     private Recipe recipe;
     private RecipeStep[] recipeSteps;
     private RecipeStep recipeStep;
     private String recipeName;
     private int whichStep;
-
     private SimpleExoPlayer simpleExoPlayer;
     private SimpleExoPlayerView simpleExoPlayerView;
-    private static MediaSessionCompat mediaSession;
     private PlaybackStateCompat.Builder stateBuilder;
 
     @Override
@@ -50,10 +55,11 @@ public class RecipeStepActivity extends AppCompatActivity {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_recipe_step);
 
         simpleExoPlayerView = mBinding.xoRecipeStepVideos;
-        simpleExoPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.baking_time));
+        simpleExoPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.black_rectangle));
 
         // Initialize the player.
-        initializePlayer(); //Uri.parse(recipeStep.getVideoUrl()));
+        initializePlayer();
+        simpleExoPlayer.addListener(this);
 
         Intent callingIntent = getIntent();
         if (callingIntent.hasExtra("recipe")) {
@@ -117,7 +123,7 @@ public class RecipeStepActivity extends AppCompatActivity {
         // stop any currently-playing video
         simpleExoPlayer.stop();
 
-        // update the step number and description
+        // update the step number and description for the selected step
         // the recipe introduction gets grouped with the steps but
         // doesn't have a step number in its description
         String stepNumberString = whichStep > 0 ? String.format(" - Step %d", whichStep) : " - Introduction";
@@ -127,12 +133,47 @@ public class RecipeStepActivity extends AppCompatActivity {
         String stepDescription = (whichStep > 0 ? "Step " : "") + recipeStep.getDescription();
         tvStepDescription.setText(stepDescription);
 
-        // update the video
-        String userAgent = Util.getUserAgent(this, "BakingApp");
-        MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(recipeStep.getVideoUrl()), new DefaultDataSourceFactory(
-                this, userAgent), new DefaultExtractorsFactory(), null, null);
-        simpleExoPlayer.prepare(mediaSource);
-        simpleExoPlayer.setPlayWhenReady(true);
+        // update the video for the selected step
+        if (recipeStep.getVideoUrl().equals("")) {
+            simpleExoPlayerView.setVisibility(View.GONE);
+        } else {
+            simpleExoPlayerView.setVisibility(View.VISIBLE);
+            String userAgent = Util.getUserAgent(this, "BakingApp");
+            MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(recipeStep.getVideoUrl()), new DefaultDataSourceFactory(
+                    this, userAgent), new DefaultExtractorsFactory(), null, null);
+            simpleExoPlayer.prepare(mediaSource);
+            simpleExoPlayer.setPlayWhenReady(true);
+        }
+    }
+
+    @Override
+    public void onTimelineChanged(Timeline timeline, Object manifest) {
+    }
+
+    @Override
+    public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+    }
+
+    @Override
+    public void onLoadingChanged(boolean isLoading) {
+    }
+
+    @Override
+    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+        ProgressBar pbVideoLoadingIndicator = mBinding.pbVideoLoadingIndicator;
+        if (playbackState == SimpleExoPlayer.STATE_BUFFERING) {
+            pbVideoLoadingIndicator.setVisibility(View.VISIBLE);
+        } else {
+            pbVideoLoadingIndicator.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void onPlayerError(ExoPlaybackException error) {
+    }
+
+    @Override
+    public void onPositionDiscontinuity() {
     }
 
     @Override

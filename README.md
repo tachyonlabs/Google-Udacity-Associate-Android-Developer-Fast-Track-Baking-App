@@ -3,6 +3,10 @@ When completed, this will be my submission for the third project in the Google/U
 
 ![A screenshot of my Baking Time App](https://raw.githubusercontent.com/tachyonlabs/Google-Udacity-Associate-Android-Developer-Fast-Track-Baking-App/master/baking-time-screenshot.png "A screenshot of my Baking Time App")
 
+![A screenshot of a recipe detail on my Baking Time App](https://raw.githubusercontent.com/tachyonlabs/Google-Udacity-Associate-Android-Developer-Fast-Track-Baking-App/master/baking-time-recipe-detail-screenshot.png "A screenshot of a recipe detail on my Baking Time App")
+
+![A screenshot of a recipe step detail on my Baking Time App](https://raw.githubusercontent.com/tachyonlabs/Google-Udacity-Associate-Android-Developer-Fast-Track-Baking-App/master/baking-time-recipe-step-detail-screenshot.png "A screenshot of a recipe step detail on my Baking Time App")
+
 ### General App Usage
 Meets Specifications:
 

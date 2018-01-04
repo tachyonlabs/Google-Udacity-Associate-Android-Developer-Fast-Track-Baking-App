@@ -70,6 +70,8 @@ public class RecipeJsonUtils {
         for (int i = 0; i < ingredientsArray.length(); i++) {
             JSONObject ingredientJson = ingredientsArray.getJSONObject(i);
             String ingredientName = ingredientJson.getString("ingredient");
+            // some of the ingredients don't have a space between a word and a following open paren
+            ingredientName = ingredientName.replaceAll("(\\S)\\(", "$1 \\(");
             int ingredientQuantity = ingredientJson.getInt("quantity");
             String ingredientMeasurementUnit = ingredientJson.getString("measure");
 
