@@ -8,8 +8,10 @@ import com.tachyonlabs.bakingapp.utilities.RecipeJsonUtils;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +43,8 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeCardA
         mRecyclerView.setAdapter(mRecipeCardAdapter);
         tvErrorMessageDisplay = mBinding.tvErrorMessageDisplay;
         pbLoadingIndicator = mBinding.pbLoadingIndicator;
+        pbLoadingIndicator.getIndeterminateDrawable()
+                .setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary), PorterDuff.Mode.SRC_IN );
         if (savedInstanceState == null) {
             loadRecipes();
         } else {

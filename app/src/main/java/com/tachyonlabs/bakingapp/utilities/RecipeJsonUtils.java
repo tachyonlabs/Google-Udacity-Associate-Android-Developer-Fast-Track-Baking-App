@@ -33,10 +33,10 @@ public class RecipeJsonUtils {
         * For Yellow Cake: "[yellow cake](https://www.flickr.com/photos/stuart_spivack/2584637478/)", by [Stuart Spivack](https://www.flickr.com/people/stuart_spivack/)
         * For Cheesecake: "[Cheesecake Supreme](https://www.flickr.com/photos/cuttingboard/2699220126)", by [Emily Carlin](https://www.flickr.com/people/cuttingboard/)
         */
-        photoUrls.put("Nutella Pie", new String[] {"https://c1.staticflickr.com/5/4001/4328677446_ecdd0479a3_z.jpg", "As easy to make as it is delicious and decadent!"});
-        photoUrls.put("Brownies",  new String[] {"https://c2.staticflickr.com/6/5224/5727350257_72a6008cc9_z.jpg", "Your family will love these rich, gooey brownies."});
-        photoUrls.put("Yellow Cake",  new String[] {"https://c2.staticflickr.com/4/3177/2584637478_bc89ae4a1d_z.jpg", "An updated version of the beloved classic."});
-        photoUrls.put("Cheesecake",  new String[] {"https://c2.staticflickr.com/4/3015/2699220126_cc964a2cd2_z.jpg", "My grandmother's prize-winning recipe."});
+        photoUrls.put("Nutella Pie", new String[] {"https://c1.staticflickr.com/5/4001/4328677446_ecdd0479a3_z.jpg", "As easy to make as it is delicious and decadent."});
+        photoUrls.put("Brownies",  new String[] {"https://c2.staticflickr.com/6/5224/5727350257_72a6008cc9_z.jpg", "Your family will love these rich, fudgy brownies."});
+        photoUrls.put("Yellow Cake",  new String[] {"https://c2.staticflickr.com/4/3177/2584637478_bc89ae4a1d_z.jpg", "This beloved classic is my favorite dessert."});
+        photoUrls.put("Cheesecake",  new String[] {"https://c2.staticflickr.com/4/3015/2699220126_cc964a2cd2_z.jpg", "Elegant, easy to make, and everyone loves it."});
 
         for (int id = 0; id < recipesArray.length(); id++) {
             JSONObject recipe = recipesArray.getJSONObject(id);

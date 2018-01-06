@@ -25,8 +25,10 @@ import com.tachyonlabs.bakingapp.models.RecipeStep;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.ActionBar;
@@ -161,6 +163,8 @@ public class RecipeStepActivity extends AppCompatActivity implements ExoPlayer.E
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
         ProgressBar pbVideoLoadingIndicator = mBinding.pbVideoLoadingIndicator;
+        pbVideoLoadingIndicator.getIndeterminateDrawable()
+                .setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary), PorterDuff.Mode.SRC_IN );
         if (playbackState == SimpleExoPlayer.STATE_BUFFERING) {
             pbVideoLoadingIndicator.setVisibility(View.VISIBLE);
         } else {
