@@ -14,65 +14,83 @@
      limitations under the License.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom"
-    android:layoutDirection="ltr"
-    android:background="#CC000000"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="bottom"
+              android:layoutDirection="ltr"
+              android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingTop="4dp"
-        android:orientation="horizontal">
+    <SeekBar android:id="@id/exo_progress"
+             android:layout_width="match_parent"
+             android:layout_height="28dp"
+             android:focusable="false"
+             style="?android:attr/progressBarStyleHorizontal"
+             android:thumbTint="@color/colorPrimary"
+             android:progressTint="@color/colorPrimary"
+             android:progressBackgroundTint="@color/colorPrimaryDark"
+             android:secondaryProgressTint="@color/colorPrimaryPale"/>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
         <ImageButton android:id="@id/exo_prev"
-            style="@style/ExoMediaButton.Previous"/>
+                     style="@style/ExoMediaButton.Previous"
+                     android:layout_alignParentTop="true"
+                     android:layout_alignParentLeft="true"
+                     android:layout_marginLeft="-10dp"
+                     android:layout_marginTop="-12dp"/>
 
         <ImageButton android:id="@id/exo_play"
-            style="@style/ExoMediaButton.Play"/>
+                     style="@style/ExoMediaButton.Play"
+                     android:layout_alignParentTop="true"
+                     android:layout_marginLeft="-10dp"
+                     android:layout_toRightOf="@id/exo_prev"
+                     android:layout_marginTop="-12dp"/>
 
         <ImageButton android:id="@id/exo_pause"
-            style="@style/ExoMediaButton.Pause"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+                     style="@style/ExoMediaButton.Pause"
+                     android:layout_alignParentTop="true"
+                     android:layout_toRightOf="@id/exo_prev"
+                     android:layout_marginLeft="-10dp"
+                     android:layout_marginTop="-12dp"/>
 
         <TextView android:id="@id/exo_position"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:includeFontPadding="false"
-            android:textColor="#FFBEBEBE"/>
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="20sp"
+                  android:textColor="#FFFFFFFF"
+                  android:paddingLeft="4dp"
+                  android:paddingRight="4dp"
+                  android:layout_alignParentTop="true"
+                  android:textStyle="bold"
+                  android:layout_toLeftOf="@id/tv_time_slash"/>
 
-        <SeekBar android:id="@id/exo_progress"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="32dp"
-            android:focusable="false"
-            style="?android:attr/progressBarStyleHorizontal"/>
+        <TextView android:id="@+id/tv_time_slash"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="/"
+                  android:textSize="20sp"
+                  android:textStyle="bold"
+                  android:paddingLeft="4dp"
+                  android:paddingRight="4dp"
+                  android:textColor="#FFFFFFFF"
+                  android:layout_alignParentTop="true"
+                  android:layout_toLeftOf="@id/exo_duration"/>
 
         <TextView android:id="@id/exo_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:includeFontPadding="false"
-            android:textColor="#FFBEBEBE"/>
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="20sp"
+                  android:textStyle="bold"
+                  android:paddingLeft="4dp"
+                  android:paddingRight="4dp"
+                  android:layout_marginRight="10dp"
+                  android:textColor="#FFFFFFFF"
+                  android:layout_alignParentTop="true"
+                  android:layout_alignParentRight="true"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>
