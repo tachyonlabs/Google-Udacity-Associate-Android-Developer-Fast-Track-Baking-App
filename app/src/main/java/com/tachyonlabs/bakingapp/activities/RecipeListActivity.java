@@ -1,4 +1,6 @@
-package com.tachyonlabs.bakingapp;
+package com.tachyonlabs.bakingapp.activities;
+
+import com.tachyonlabs.bakingapp.R;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

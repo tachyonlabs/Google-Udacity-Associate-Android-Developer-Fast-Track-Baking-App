@@ -1,6 +1,9 @@
-package com.tachyonlabs.bakingapp;
+package com.tachyonlabs.bakingapp.fragments;
 
 import com.squareup.picasso.Picasso;
+import com.tachyonlabs.bakingapp.R;
+import com.tachyonlabs.bakingapp.activities.RecipeDetailActivity;
+import com.tachyonlabs.bakingapp.activities.RecipeStepActivity;
 import com.tachyonlabs.bakingapp.adapters.RecipeStepAdapter;
 import com.tachyonlabs.bakingapp.models.Recipe;
 import com.tachyonlabs.bakingapp.models.RecipeIngredient;
@@ -35,14 +38,14 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter.
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
-        ImageView ivRecipeDetailPhoto = (ImageView) rootView.findViewById(R.id.iv_recipe_detail_photo);
-        TextView tvRecipeName = (TextView) rootView.findViewById(R.id.tv_recipe_detail_name);
-        TextView tvRecipeServings = (TextView) rootView.findViewById(R.id.tv_recipe_servings);
-        TextView tvIngredientsList = (TextView) rootView.findViewById(R.id.tv_ingredients_list);
-        ScrollView svRecipeDetail = (ScrollView) rootView.findViewById(R.id.sv_recipe_detail);
+        ImageView ivRecipeDetailPhoto = rootView.findViewById(R.id.iv_recipe_detail_photo);
+        TextView tvRecipeName = rootView.findViewById(R.id.tv_recipe_detail_name);
+        TextView tvRecipeServings = rootView.findViewById(R.id.tv_recipe_servings);
+        TextView tvIngredientsList = rootView.findViewById(R.id.tv_ingredients_list);
+        ScrollView svRecipeDetail = rootView.findViewById(R.id.sv_recipe_detail);
 
         // set up recyclerview and adapter to display the steps
-        mRecipeStepsRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_recipe_steps);
+        mRecipeStepsRecyclerView = rootView.findViewById(R.id.rv_recipe_steps);
         LinearLayoutManager stepsLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRecipeStepsRecyclerView.setLayoutManager(stepsLayoutManager);
         mRecipeStepAdapter = new com.tachyonlabs.bakingapp.adapters.RecipeStepAdapter(this);

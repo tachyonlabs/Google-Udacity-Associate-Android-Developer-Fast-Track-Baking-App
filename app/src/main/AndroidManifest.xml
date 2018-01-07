@@ -12,7 +12,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
-                android:name=".RecipeListActivity"
+                android:name=".activities.RecipeListActivity"
                 android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -21,19 +21,19 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".RecipeDetailActivity"
+                android:name=".activities.RecipeDetailActivity"
                 android:launchMode="singleTop"
-                android:parentActivityName=".RecipeListActivity">
+                android:parentActivityName=".activities.RecipeListActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".RecipeListActivity"/>
+                    android:value=".activities.RecipeListActivity"/>
         </activity>
         <activity
-                android:name=".RecipeStepActivity"
-                android:parentActivityName=".RecipeDetailActivity">
+                android:name=".activities.RecipeStepActivity"
+                android:parentActivityName=".activities.RecipeDetailActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".RecipeDetailActivity"/>
+                    android:value=".activities.RecipeDetailActivity"/>
         </activity>
 
         <meta-data

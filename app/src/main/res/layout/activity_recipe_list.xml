@@ -6,7 +6,7 @@
 
     <fragment
             android:id="@+id/recipe_list_fragment"
-            android:name="com.tachyonlabs.bakingapp.RecipeListFragment"
+            android:name="com.tachyonlabs.bakingapp.fragments.RecipeListFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
