@@ -1,108 +1,129 @@
 package com.tachyonlabs.bakingapp;
 
-import android.content.Context;
-import android.net.Uri;
+import com.tachyonlabs.bakingapp.adapters.RecipeCardAdapter;
+import com.tachyonlabs.bakingapp.models.Recipe;
+import com.tachyonlabs.bakingapp.utilities.NetworkUtils;
+import com.tachyonlabs.bakingapp.utilities.RecipeJsonUtils;
+
+import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import java.net.URL;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link RecipeListFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link RecipeListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class RecipeListFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class RecipeListFragment extends Fragment implements RecipeCardAdapter.RecipeCardAdapterOnClickHandler {
+    private RecyclerView mRecyclerView;
+    private RecipeCardAdapter mRecipeCardAdapter;
+    private TextView tvErrorMessageDisplay;
+    private ProgressBar pbLoadingIndicator;
+    private Recipe[] recipes;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
+    private final static String TAG = RecipeListFragment.class.getSimpleName();
 
     public RecipeListFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RecipeListFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static RecipeListFragment newInstance(String param1, String param2) {
-        RecipeListFragment fragment = new RecipeListFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recipe_list, container, false);
-    }
+        final View rootView = inflater.inflate(R.layout.fragment_recipe_list, container, false);
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_recipe_cards);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 1);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecipeCardAdapter = new RecipeCardAdapter(this);
+        mRecyclerView.setAdapter(mRecipeCardAdapter);
+        tvErrorMessageDisplay = (TextView) rootView.findViewById(R.id.tv_error_message_display);
+        pbLoadingIndicator = (ProgressBar) rootView.findViewById(R.id.pb_loading_indicator);
+        pbLoadingIndicator.getIndeterminateDrawable()
+                .setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimary), PorterDuff.Mode.SRC_IN );
+        if (savedInstanceState == null) {
+            loadRecipes();
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+            recipes = (Recipe[]) (savedInstanceState.getParcelableArray("recipes"));
+            mRecipeCardAdapter.setRecipeCardData(recipes);
         }
+
+
+        return rootView;
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArray("recipes", recipes);
+        super.onSaveInstanceState(outState);
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    private void loadRecipes() {
+        new FetchRecipesTask().execute();
     }
+
+    public class FetchRecipesTask extends AsyncTask<String, Void, Recipe[]> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pbLoadingIndicator.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Recipe[] doInBackground(String... params) {
+            try {
+                URL recipesJsonUrl = NetworkUtils.getRecipesJsonUrl();
+                String jsonRecipesResponse = NetworkUtils.getResponseFromHttpUrl(recipesJsonUrl);
+                return RecipeJsonUtils.getRecipesFromJson(getActivity(), jsonRecipesResponse);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Recipe[] theRecipes) {
+            pbLoadingIndicator.setVisibility(View.INVISIBLE);
+            if (theRecipes != null) {
+                recipes = theRecipes;
+                showRecipeCards();
+                mRecipeCardAdapter.setRecipeCardData(recipes);
+            } else {
+                showErrorMessage(getString(R.string.no_data_received));
+            }
+        }
+    }
+
+    private void showRecipeCards() {
+        tvErrorMessageDisplay.setVisibility(View.INVISIBLE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    private void showErrorMessage(String errorMessage) {
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        tvErrorMessageDisplay.setText(errorMessage);
+        tvErrorMessageDisplay.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onClick(Recipe recipe) {
+        Intent intent = new Intent(getActivity(), RecipeDetailActivity.class);
+        intent.putExtra("recipe", recipe);
+        startActivity(intent);
+    }
+
 }

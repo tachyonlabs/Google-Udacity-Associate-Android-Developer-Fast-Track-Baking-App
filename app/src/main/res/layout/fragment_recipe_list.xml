@@ -4,10 +4,28 @@
              android:layout_height="match_parent"
              tools:context="com.tachyonlabs.bakingapp.RecipeListFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_recipe_cards"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"/>
+            android:paddingTop="24dp"
+            android:background="@color/colorPrimaryPale"/>
+
+    <TextView
+            android:id="@+id/tv_error_message_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="@dimen/error_message_padding"
+            android:text="@string/error_message"
+            android:textSize="@dimen/error_message_text_size"
+            android:visibility="invisible"/>
+
+    <ProgressBar
+            android:id="@+id/pb_loading_indicator"
+            android:layout_height="@dimen/loading_indicator_width_and_height"
+            android:layout_width="@dimen/loading_indicator_width_and_height"
+            android:layout_gravity="center"
+            android:visibility="invisible"/>
 
 </FrameLayout>
