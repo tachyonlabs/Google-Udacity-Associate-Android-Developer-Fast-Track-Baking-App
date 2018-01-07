@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class RecipeListFragment extends Fragment implements RecipeCardAdapter.Re
     private TextView tvErrorMessageDisplay;
     private ProgressBar pbLoadingIndicator;
     private Recipe[] recipes;
+    private int columns;
 
     private final static String TAG = RecipeListFragment.class.getSimpleName();
 
@@ -46,7 +48,13 @@ public class RecipeListFragment extends Fragment implements RecipeCardAdapter.Re
         final View rootView = inflater.inflate(R.layout.fragment_recipe_list, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_recipe_cards);
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 1);
+        
+        // set the number of columns according to the dp width of the device's screen and rotation
+        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+        int dpWidth = Math.round(displayMetrics.widthPixels / displayMetrics.density);
+        columns = Math.max(1, (int) Math.floor(dpWidth / 300));
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), columns);
+
         mRecyclerView.setLayoutManager(layoutManager);
         mRecipeCardAdapter = new RecipeCardAdapter(this);
         mRecyclerView.setAdapter(mRecipeCardAdapter);

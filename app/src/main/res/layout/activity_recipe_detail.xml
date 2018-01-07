@@ -1,78 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <ScrollView
+    <fragment
+            android:id="@+id/recipe_detail_fragment"
+            android:name="com.tachyonlabs.bakingapp.RecipeDetailFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/sv_recipe_detail">
+            android:layout_height="match_parent"/>
 
-        <RelativeLayout android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-            <ImageView
-                    android:id="@+id/iv_recipe_detail_photo"
-                    android:layout_width="144dp"
-                    android:layout_height="128dp"
-                    android:scaleType="fitXY"
-                    android:adjustViewBounds="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginBottom="10dp"/>
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tv_recipe_detail_name"
-                    android:textSize="44sp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="14dp"
-                    tools:text="Recipe Name"
-                    tools:fontFamily="sans-serif"
-                    android:fontFamily="@font/la_belle_aurore"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@id/iv_recipe_detail_photo"/>
-
-            <TextView
-                    android:id="@+id/tv_recipe_servings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_recipe_detail_name"
-                    android:layout_toRightOf="@id/iv_recipe_detail_photo"
-                    android:layout_marginTop="-5dp"
-                    android:layout_marginLeft="20dp"
-                    android:textSize="24sp"
-                    tools:fontFamily="sans-serif"
-                    android:fontFamily="@font/la_belle_aurore"
-                    tools:text="8 servings"/>
-
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tv_ingredients_list"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@id/iv_recipe_detail_photo"
-                    android:textSize="16sp"
-                    android:lineSpacingMultiplier="1.1"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="18dp"/>
-
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="11dp"
-                    android:layout_below="@id/tv_ingredients_list"
-                    android:id="@+id/v_ingredients_drop_shadow"
-                    android:background="@drawable/drop_shadow"/>
-
-            <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_recipe_steps"
-                    android:layout_below="@id/v_ingredients_drop_shadow"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingTop="13dp"
-                    android:background="@color/colorPrimaryPale"/>
-        </RelativeLayout>
-    </ScrollView>
-</layout>
+</LinearLayout>
