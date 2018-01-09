@@ -59,7 +59,6 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
     public RecipeStepFragment() {
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -94,7 +93,7 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
             recipeName = recipe.getName();
             recipeSteps = recipe.getSteps();
             recipeStep = recipeSteps[whichStep];
-            updateStepNumberDescriptionAndVideo();
+            updateStepNumberDescriptionAndVideo(whichStep);
         }
 
         return rootView;
@@ -111,44 +110,49 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
     }
 
     public void nextOrPreviousStep(View view) {
-        // if the user taps Next or Previous, update the UI accordingly
+        // if the user taps Next or Previous
         if (view == btnPreviousStep) {
             whichStep--;
-            btnNextStep.setEnabled(true);
-            btnNextStep.setClickable(true);
-            btnNextStep.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-            if (whichStep == 0) {
-                btnPreviousStep.setEnabled(false);
-                btnPreviousStep.setClickable(false);
-                btnPreviousStep.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDisabled));
-            }
         } else {
             whichStep++;
+        }
+        updateStepNumberDescriptionAndVideo(whichStep);
+    }
+
+    public void updateStepNumberDescriptionAndVideo(int step) {
+        // stop any currently-playing video
+        simpleExoPlayer.stop();
+
+        whichStep = step;
+        recipeStep = recipeSteps[step];
+
+        if (step == 0) {
+            btnPreviousStep.setEnabled(false);
+            btnPreviousStep.setClickable(false);
+            btnPreviousStep.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDisabled));
+        } else {
             btnPreviousStep.setEnabled(true);
             btnPreviousStep.setClickable(true);
             btnPreviousStep.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-            if (whichStep == recipeSteps.length - 1) {
-                btnNextStep.setEnabled(false);
-                btnNextStep.setClickable(false);
-                btnNextStep.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDisabled));
-            }
         }
-        recipeStep = recipeSteps[whichStep];
-        updateStepNumberDescriptionAndVideo();
-    }
-
-    private void updateStepNumberDescriptionAndVideo() {
-        // stop any currently-playing video
-        simpleExoPlayer.stop();
+        if (step == recipeSteps.length - 1) {
+            btnNextStep.setEnabled(false);
+            btnNextStep.setClickable(false);
+            btnNextStep.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDisabled));
+        } else {
+            btnNextStep.setEnabled(true);
+            btnNextStep.setClickable(true);
+            btnNextStep.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        }
 
         // update the step number and description for the selected step
         // the recipe introduction gets grouped with the steps but
         // doesn't have a step number in its description
-        String stepNumberString = whichStep > 0 ? String.format(" - Step %d", whichStep) : " - Introduction";
+        String stepNumberString = step > 0 ? String.format(" - Step %d", step) : " - Introduction";
         ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
         ab.setTitle(recipeName + stepNumberString);
         TextView tvStepDescription = rootView.findViewById(R.id.tv_step_description);
-        String stepDescription = (whichStep > 0 ? "Step " : "") + recipeStep.getDescription();
+        String stepDescription = (step > 0 ? "Step " : "") + recipeStep.getDescription();
         tvStepDescription.setText(stepDescription);
 
         // update the video for the selected step
@@ -180,7 +184,7 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
         ProgressBar pbVideoLoadingIndicator = rootView.findViewById(R.id.pb_video_loading_indicator);
         pbVideoLoadingIndicator.getIndeterminateDrawable()
-                .setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimary), PorterDuff.Mode.SRC_IN );
+                .setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
         if (playbackState == SimpleExoPlayer.STATE_BUFFERING) {
             pbVideoLoadingIndicator.setVisibility(View.VISIBLE);
         } else {

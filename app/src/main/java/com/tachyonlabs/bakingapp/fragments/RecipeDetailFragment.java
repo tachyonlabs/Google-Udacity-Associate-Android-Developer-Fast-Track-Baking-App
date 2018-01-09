@@ -3,11 +3,11 @@ package com.tachyonlabs.bakingapp.fragments;
 import com.squareup.picasso.Picasso;
 import com.tachyonlabs.bakingapp.R;
 import com.tachyonlabs.bakingapp.activities.RecipeDetailActivity;
-import com.tachyonlabs.bakingapp.activities.RecipeStepActivity;
 import com.tachyonlabs.bakingapp.adapters.RecipeStepAdapter;
 import com.tachyonlabs.bakingapp.models.Recipe;
 import com.tachyonlabs.bakingapp.models.RecipeIngredient;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,6 +29,27 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter.
     private RecyclerView mRecipeStepsRecyclerView;
     private RecipeStepAdapter mRecipeStepAdapter;
     private Recipe recipe;
+
+    // Define a new interface OnStepClickListener that triggers a callback in the host activity
+    OnStepClickListener mStepCallback;
+
+    // OnStepClickListener interface, calls a method in the host activity named onStepSelected
+    public interface OnStepClickListener {
+        void onStepSelected(int position);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        // This makes sure that the host activity has implemented the callback interface
+        // If not, it throws an exception
+        try {
+            mStepCallback = (OnStepClickListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnStepClickListener");
+        }
+    }
 
     public RecipeDetailFragment() {
     }
@@ -94,9 +115,6 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter.
 
     @Override
     public void onClick(int whichStep) {
-        Intent intent = new Intent(getActivity(), RecipeStepActivity.class);
-        intent.putExtra("recipe", recipe);
-        intent.putExtra("whichStep", whichStep);
-        startActivity(intent);
+        mStepCallback.onStepSelected(whichStep);
     }
 }
