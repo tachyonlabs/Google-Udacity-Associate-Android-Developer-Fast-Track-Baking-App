@@ -14,6 +14,19 @@ import java.util.HashMap;
 
 public class RecipeJsonUtils {
     private static final String TAG = RecipeJsonUtils.class.getSimpleName();
+    private static final String JSON_RECIPE_NAME_KEY = "name";
+    private static final String JSON_RECIPE_SERVINGS_KEY = "servings";
+    private static final String JSON_RECIPE_INGREDIENTS_KEY = "ingredients";
+    private static final String JSON_RECIPE_INGREDIENT_KEY = "ingredient";
+    private static final String JSON_RECIPE_STEPS_KEY = "steps";
+    private static final String JSON_RECIPE_QUANTITY_KEY = "quantity";
+    private static final String JSON_RECIPE_MEASURE_KEY = "measure";
+    private static final String JSON_RECIPE_ID_KEY = "id";
+    private static final String JSON_RECIPE_SHORT_DESCRIPTION_KEY = "shortDescription";
+    private static final String JSON_RECIPE_DESCRIPTION_KEY = "description";
+    private static final String JSON_RECIPE_VIDEO_URL_KEY = "videoURL";
+    private static final String JSON_RECIPE_THUMBNAIL_URL_KEY = "thumbnailURL";
+    private static final String MP4_FILE_TYPE = ".mp4";
 
     public static Recipe[] getRecipesFromJson(Context context, String recipesJsonString) throws JSONException {
         JSONArray recipesArray = new JSONArray(recipesJsonString);
@@ -33,20 +46,20 @@ public class RecipeJsonUtils {
         * For Yellow Cake: "[yellow cake](https://www.flickr.com/photos/stuart_spivack/2584637478/)", by [Stuart Spivack](https://www.flickr.com/people/stuart_spivack/)
         * For Cheesecake: "[Cheesecake Supreme](https://www.flickr.com/photos/cuttingboard/2699220126)", by [Emily Carlin](https://www.flickr.com/people/cuttingboard/)
         */
-        photoUrls.put("Nutella Pie", new String[] {"https://c1.staticflickr.com/5/4001/4328677446_ecdd0479a3_z.jpg", "As easy to make as it is delicious and decadent."});
-        photoUrls.put("Brownies",  new String[] {"https://c2.staticflickr.com/6/5224/5727350257_72a6008cc9_z.jpg", "Your family will love these rich, fudgy brownies."});
-        photoUrls.put("Yellow Cake",  new String[] {"https://c2.staticflickr.com/4/3177/2584637478_bc89ae4a1d_z.jpg", "This beloved classic is my favorite dessert."});
-        photoUrls.put("Cheesecake",  new String[] {"https://c2.staticflickr.com/4/3015/2699220126_cc964a2cd2_z.jpg", "Elegant, easy to make, and everyone loves it."});
+        photoUrls.put("Nutella Pie", new String[]{"https://c1.staticflickr.com/5/4001/4328677446_ecdd0479a3_z.jpg", "As easy to make as it is delicious and decadent."});
+        photoUrls.put("Brownies", new String[]{"https://c2.staticflickr.com/6/5224/5727350257_72a6008cc9_z.jpg", "Your family will love these rich, fudgy brownies."});
+        photoUrls.put("Yellow Cake", new String[]{"https://c2.staticflickr.com/4/3177/2584637478_bc89ae4a1d_z.jpg", "This beloved classic is my favorite dessert."});
+        photoUrls.put("Cheesecake", new String[]{"https://c2.staticflickr.com/4/3015/2699220126_cc964a2cd2_z.jpg", "Elegant, easy to make, and everyone loves it."});
 
         for (int id = 0; id < recipesArray.length(); id++) {
             JSONObject recipe = recipesArray.getJSONObject(id);
-            String recipeName = recipe.getString("name");
-            int recipeServings = recipe.getInt("servings");
+            String recipeName = recipe.getString(JSON_RECIPE_NAME_KEY);
+            int recipeServings = recipe.getInt(JSON_RECIPE_SERVINGS_KEY);
 
-            JSONArray ingredients = recipe.getJSONArray("ingredients");
+            JSONArray ingredients = recipe.getJSONArray(JSON_RECIPE_INGREDIENTS_KEY);
             RecipeIngredient[] recipeIngredients = getIngredientsFromJson(context, ingredients);
 
-            JSONArray steps = recipe.getJSONArray("steps");
+            JSONArray steps = recipe.getJSONArray(JSON_RECIPE_STEPS_KEY);
             RecipeStep[] recipeSteps = getStepsFromJson(context, steps);
 
             String photoUrl = photoUrls.get(recipeName)[0];
@@ -69,11 +82,11 @@ public class RecipeJsonUtils {
 
         for (int i = 0; i < ingredientsArray.length(); i++) {
             JSONObject ingredientJson = ingredientsArray.getJSONObject(i);
-            String ingredientName = ingredientJson.getString("ingredient");
+            String ingredientName = ingredientJson.getString(JSON_RECIPE_INGREDIENT_KEY);
             // some of the ingredients don't have a space between a word and a following open paren
             ingredientName = ingredientName.replaceAll("(\\S)\\(", "$1 \\(");
-            int ingredientQuantity = ingredientJson.getInt("quantity");
-            String ingredientMeasurementUnit = ingredientJson.getString("measure");
+            int ingredientQuantity = ingredientJson.getInt(JSON_RECIPE_QUANTITY_KEY);
+            String ingredientMeasurementUnit = ingredientJson.getString(JSON_RECIPE_MEASURE_KEY);
 
             RecipeIngredient ingredient = new RecipeIngredient(ingredientName,
                     ingredientQuantity,
@@ -88,13 +101,13 @@ public class RecipeJsonUtils {
 
         for (int i = 0; i < stepsArray.length(); i++) {
             JSONObject stepJson = stepsArray.getJSONObject(i);
-            int stepId = stepJson.getInt("id");
-            String stepShortDescription = stepJson.getString("shortDescription");
-            String stepDescription = stepJson.getString("description");
-            String stepVideoUrl = stepJson.getString("videoURL");
-            String stepThumbnailUrl = stepJson.getString("thumbnailURL");
+            int stepId = stepJson.getInt(JSON_RECIPE_ID_KEY);
+            String stepShortDescription = stepJson.getString(JSON_RECIPE_SHORT_DESCRIPTION_KEY);
+            String stepDescription = stepJson.getString(JSON_RECIPE_DESCRIPTION_KEY);
+            String stepVideoUrl = stepJson.getString(JSON_RECIPE_VIDEO_URL_KEY);
+            String stepThumbnailUrl = stepJson.getString(JSON_RECIPE_THUMBNAIL_URL_KEY);
             // There's one step where the video URL is in the wrong JSON field
-            if (stepVideoUrl.equals("") && stepThumbnailUrl.endsWith(".mp4")) {
+            if (stepVideoUrl.equals("") && stepThumbnailUrl.endsWith(MP4_FILE_TYPE)) {
                 stepVideoUrl = stepThumbnailUrl;
                 stepThumbnailUrl = "";
             }

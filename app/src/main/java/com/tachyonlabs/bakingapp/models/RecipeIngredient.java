@@ -20,6 +20,8 @@ public class RecipeIngredient implements Parcelable {
     private String name;
     private int quantity;
     private String measurementUnit;
+    // for some reason the JSON uses "UNIT" to indicate no unit
+    private final static String NO_UNIT_IN_JSON = "UNIT";
 
     private RecipeIngredient(Parcel in) {
         name = in.readString();
@@ -58,8 +60,7 @@ public class RecipeIngredient implements Parcelable {
     }
 
     public String getQuantityUnitNameString() {
-        // for some reason the JSON uses "UNIT" to indicate no unit
-        if (getMeasurementUnit().equals("UNIT")) {
+        if (getMeasurementUnit().equals(NO_UNIT_IN_JSON)) {
             return String.format("%s %s", getQuantity(), getName());
         } else {
             return String.format("%s %s %s", getQuantity(), getMeasurementUnit().toLowerCase(), getName());

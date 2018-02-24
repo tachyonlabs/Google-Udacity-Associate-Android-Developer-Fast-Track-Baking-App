@@ -21,6 +21,7 @@ import com.google.android.exoplayer2.util.Util;
 import com.tachyonlabs.bakingapp.R;
 import com.tachyonlabs.bakingapp.models.Recipe;
 import com.tachyonlabs.bakingapp.models.RecipeStep;
+import com.tachyonlabs.bakingapp.utilities.NetworkUtils;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -39,6 +40,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListener {
@@ -87,9 +89,9 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
         });
 
         Intent callingIntent = getActivity().getIntent();
-        if (callingIntent.hasExtra("recipe")) {
-            recipe = callingIntent.getParcelableExtra("recipe");
-            whichStep = callingIntent.getIntExtra("whichStep", 0);
+        if (callingIntent.hasExtra(getString(R.string.recipe_key))) {
+            recipe = callingIntent.getParcelableExtra(getString(R.string.recipe_key));
+            whichStep = callingIntent.getIntExtra(getString(R.string.which_step_key), 0);
             recipeName = recipe.getName();
             recipeSteps = recipe.getSteps();
             recipeStep = recipeSteps[whichStep];
@@ -158,9 +160,11 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
         // update the video for the selected step
         if (recipeStep.getVideoUrl().equals("")) {
             simpleExoPlayerView.setVisibility(View.GONE);
+        } else if (!NetworkUtils.isNetworkAvailable(getContext()) || !NetworkUtils.isOnline()) {
+            Toast.makeText(getContext(), "You have no Internet connection", Toast.LENGTH_LONG).show();
         } else {
             simpleExoPlayerView.setVisibility(View.VISIBLE);
-            String userAgent = Util.getUserAgent(getContext(), "BakingApp");
+            String userAgent = Util.getUserAgent(getContext(), getString(R.string.app_name));
             MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(recipeStep.getVideoUrl()), new DefaultDataSourceFactory(
                     getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
             simpleExoPlayer.prepare(mediaSource);

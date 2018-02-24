@@ -3,7 +3,9 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:divider="?android:dividerVertical"
+        android:showDividers="middle">
 
     <fragment
             android:id="@+id/recipe_detail_fragment_for_tablet"

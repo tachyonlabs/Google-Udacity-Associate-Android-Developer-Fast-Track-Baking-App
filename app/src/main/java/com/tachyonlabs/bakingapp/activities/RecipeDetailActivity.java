@@ -20,7 +20,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail);
         Intent callingIntent = getIntent();
-        recipe = callingIntent.getParcelableExtra("recipe");
+        recipe = callingIntent.getParcelableExtra(getString(R.string.recipe_key));
 
         if (findViewById(R.id.recipe_detail_fragment_for_tablet) != null) {
             mTwoPane = true;
@@ -35,8 +35,8 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
             recipeStepFragment.updateStepNumberDescriptionAndVideo(whichStep);
         } else {
             Intent intent = new Intent(this, RecipeStepActivity.class);
-            intent.putExtra("recipe", recipe);
-            intent.putExtra("whichStep", whichStep);
+            intent.putExtra(getString(R.string.recipe_key), recipe);
+            intent.putExtra(getString(R.string.which_step_key), whichStep);
             startActivity(intent);
         }
     }

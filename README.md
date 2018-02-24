@@ -45,3 +45,5 @@ The JSON for the recipes contains URLs for videos illustrating some of the steps
 * For Cheesecake: "[Cheesecake Supreme](https://www.flickr.com/photos/cuttingboard/2699220126)", by [Emily Carlin](https://www.flickr.com/people/cuttingboard/)
 
 ### Notes
+
+isNetworkAvailable() and isOnline() methods for determinging whether we have network and internet connections courtesy of [https://guides.codepath.com/android/Sending-and-Managing-Network-Requests](https://guides.codepath.com/android/Sending-and-Managing-Network-Requests)

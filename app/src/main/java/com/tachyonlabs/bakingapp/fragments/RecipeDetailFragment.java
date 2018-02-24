@@ -26,16 +26,13 @@ import android.widget.TextView;
 
 public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter.RecipeStepAdapterOnClickHandler {
     private static final String TAG = RecipeDetailActivity.class.getSimpleName();
+    // Define a new interface OnStepClickListener that triggers a callback in the host activity
+    OnStepClickListener mStepCallback;
     private RecyclerView mRecipeStepsRecyclerView;
     private RecipeStepAdapter mRecipeStepAdapter;
     private Recipe recipe;
 
-    // Define a new interface OnStepClickListener that triggers a callback in the host activity
-    OnStepClickListener mStepCallback;
-
-    // OnStepClickListener interface, calls a method in the host activity named onStepSelected
-    public interface OnStepClickListener {
-        void onStepSelected(int position);
+    public RecipeDetailFragment() {
     }
 
     @Override
@@ -49,9 +46,6 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter.
             throw new ClassCastException(context.toString()
                     + " must implement OnStepClickListener");
         }
-    }
-
-    public RecipeDetailFragment() {
     }
 
     @Override
@@ -74,9 +68,9 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter.
 
         if (savedInstanceState == null) {
             Intent callingIntent = getActivity().getIntent();
-            recipe = callingIntent.getParcelableExtra("recipe");
+            recipe = callingIntent.getParcelableExtra(getString(R.string.recipe_key));
         } else {
-            recipe = savedInstanceState.getParcelable("recipe");
+            recipe = savedInstanceState.getParcelable(getString(R.string.recipe_key));
         }
 
         Picasso.with(getContext())
@@ -109,12 +103,17 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter.
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelable("recipe", recipe);
+        outState.putParcelable(getString(R.string.recipe_key), recipe);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onClick(int whichStep) {
         mStepCallback.onStepSelected(whichStep);
+    }
+
+    // OnStepClickListener interface, calls a method in the host activity named onStepSelected
+    public interface OnStepClickListener {
+        void onStepSelected(int position);
     }
 }
