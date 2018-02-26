@@ -14,4 +14,6 @@
     <string name="which_step_key" translatable="false">whichStep</string>
     <string name="recipes_key" translatable="false">recipes</string>
     <string name="exoplayer_position_key" translatable="false">ExoPlayer Position</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>

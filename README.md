@@ -28,7 +28,7 @@ Meets Specifications:
 ### Homescreen Widget
 Meets Specifications:
 
-* [ ] Application has a companion homescreen widget.
+* [x] Application has a companion homescreen widget.
 * [ ] Widget displays ingredient list for desired recipe.
 
 ### Third-party libraries used
@@ -44,6 +44,8 @@ The JSON for the recipes contains URLs for videos illustrating some of the steps
 * For Yellow Cake: "[yellow cake](https://www.flickr.com/photos/stuart_spivack/2584637478/)", by [Stuart Spivack](https://www.flickr.com/people/stuart_spivack/)
 * For Cheesecake: "[Cheesecake Supreme](https://www.flickr.com/photos/cuttingboard/2699220126)", by [Emily Carlin](https://www.flickr.com/people/cuttingboard/)
 
-### Notes
+### Additional acknowledgements/credits
 
-isNetworkAvailable() and isOnline() methods for determinging whether we have network and internet connections courtesy of [https://guides.codepath.com/android/Sending-and-Managing-Network-Requests](https://guides.codepath.com/android/Sending-and-Managing-Network-Requests)
+* isNetworkAvailable() and isOnline() methods for determining whether we have network and internet connections courtesy of [https://guides.codepath.com/android/Sending-and-Managing-Network-Requests](https://guides.codepath.com/android/Sending-and-Managing-Network-Requests)
+
+* The card drawable used in the widget is based on [https://gist.github.com/MarsVard/8297976](https://gist.github.com/MarsVard/8297976)
