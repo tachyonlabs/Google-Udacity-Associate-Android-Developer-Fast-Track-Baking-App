@@ -1,15 +1,17 @@
 <resources>
     <string name="app_name">Baking Time</string>
+
     <string name="error_message">An error has occurred.</string>
     <string name="no_data_received">No data was received - please check your Internet connection and
         try again.
     </string>
+    <string name="retry_internet_connection">Retry</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="next_button">Next</string>
     <string name="previous_button">Previous</string>
-    <string name="recipe_key">recipe</string>
-    <string name="which_step_key">whichStep</string>
-    <string name="recipes_key">recipes</string>
+
+    <string name="recipe_key" translatable="false">recipe</string>
+    <string name="which_step_key" translatable="false">whichStep</string>
+    <string name="recipes_key" translatable="false">recipes</string>
+    <string name="exoplayer_position_key" translatable="false">ExoPlayer Position</string>
 </resources>

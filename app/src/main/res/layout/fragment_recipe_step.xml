@@ -4,6 +4,9 @@
              android:layout_height="match_parent"
              tools:context="com.tachyonlabs.bakingapp.fragments.RecipeStepFragment">
 
+    <!--TODO why does putting the ExoPlayer, ProgressBar, and text into a ScrollView make the
+    ExoPlayer a tiny size? :-( -->
+
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="match_parent">
 

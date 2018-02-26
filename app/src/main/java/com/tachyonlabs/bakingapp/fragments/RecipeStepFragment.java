@@ -23,16 +23,18 @@ import com.tachyonlabs.bakingapp.models.Recipe;
 import com.tachyonlabs.bakingapp.models.RecipeStep;
 import com.tachyonlabs.bakingapp.utilities.NetworkUtils;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.media.session.MediaSessionCompat;
-import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +42,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListener {
@@ -53,10 +54,10 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
     private int whichStep;
     private SimpleExoPlayer simpleExoPlayer;
     private SimpleExoPlayerView simpleExoPlayerView;
-    private PlaybackStateCompat.Builder stateBuilder;
     private View rootView;
     private Button btnNextStep;
     private Button btnPreviousStep;
+    private long exoplayerPosition = 0;
 
     public RecipeStepFragment() {
     }
@@ -88,17 +89,32 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
             }
         });
 
-        Intent callingIntent = getActivity().getIntent();
-        if (callingIntent.hasExtra(getString(R.string.recipe_key))) {
-            recipe = callingIntent.getParcelableExtra(getString(R.string.recipe_key));
-            whichStep = callingIntent.getIntExtra(getString(R.string.which_step_key), 0);
-            recipeName = recipe.getName();
-            recipeSteps = recipe.getSteps();
-            recipeStep = recipeSteps[whichStep];
-            updateStepNumberDescriptionAndVideo(whichStep);
+        if (savedInstanceState == null) {
+            Intent callingIntent = getActivity().getIntent();
+            if (callingIntent.hasExtra(getString(R.string.recipe_key))) {
+                recipe = (Recipe) callingIntent.getParcelableExtra(getString(R.string.recipe_key));
+                whichStep = callingIntent.getIntExtra(getString(R.string.which_step_key), 0);
+            }
+        } else {
+            recipe = savedInstanceState.getParcelable(getString(R.string.recipe_key));
+            whichStep = savedInstanceState.getInt(getString(R.string.which_step_key));
+            exoplayerPosition = savedInstanceState.getLong(getString(R.string.exoplayer_position_key));
         }
 
+        recipeName = recipe.getName();
+        recipeSteps = recipe.getSteps();
+        recipeStep = recipeSteps[whichStep];
+        updateStepNumberDescriptionAndVideo(whichStep);
+
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(getString(R.string.recipe_key), recipe);
+        outState.putInt(getString(R.string.which_step_key), whichStep);
+        outState.putLong(getString(R.string.exoplayer_position_key), simpleExoPlayer.getCurrentPosition());
+        super.onSaveInstanceState(outState);
     }
 
     private void initializePlayer() {
@@ -159,17 +175,47 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
 
         // update the video for the selected step
         if (recipeStep.getVideoUrl().equals("")) {
+            // if the selected step has no video, don't show the player
             simpleExoPlayerView.setVisibility(View.GONE);
-        } else if (!NetworkUtils.isNetworkAvailable(getContext()) || !NetworkUtils.isOnline()) {
-            Toast.makeText(getContext(), "You have no Internet connection", Toast.LENGTH_LONG).show();
         } else {
-            simpleExoPlayerView.setVisibility(View.VISIBLE);
-            String userAgent = Util.getUserAgent(getContext(), getString(R.string.app_name));
-            MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(recipeStep.getVideoUrl()), new DefaultDataSourceFactory(
-                    getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
-            simpleExoPlayer.prepare(mediaSource);
-            simpleExoPlayer.setPlayWhenReady(true);
+            if (!NetworkUtils.isNetworkAvailable(getContext()) || !NetworkUtils.isOnline()) {
+                fixYourInternetConnectionDialog();
+            }
+
+            // TODO if they fix their connection and then click OK above, it doesn't seem like the
+            // following actually waits to check until after the dialog is dismissed -- my attempts
+            // to get that to work properly have not been successful yet
+            if (!NetworkUtils.isNetworkAvailable(getContext()) || !NetworkUtils.isOnline()) {
+                simpleExoPlayerView.setVisibility(View.GONE);
+            } else {
+                simpleExoPlayerView.setVisibility(View.VISIBLE);
+                String userAgent = Util.getUserAgent(getContext(), getString(R.string.app_name));
+                MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(recipeStep.getVideoUrl()), new DefaultDataSourceFactory(
+                        getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
+                simpleExoPlayer.prepare(mediaSource);
+                // to maintain time position in case of screen rotation; otherwise it's just 0
+                // TODO is there a way to not have it switch to a black screen when rotating a completed video?
+                simpleExoPlayer.seekTo(exoplayerPosition);
+                simpleExoPlayer.setPlayWhenReady(true);
+            }
         }
+    }
+
+    public void fixYourInternetConnectionDialog() {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(getContext(), android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(getContext());
+        }
+        builder.setTitle("Can't load video - no Internet connection")
+                .setMessage("Fix your Internet connection, or recipe videos will not be loaded.")
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // just return
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert).show();
     }
 
     @Override

@@ -21,7 +21,7 @@ Meets Specifications:
 * [x] Application uses Master Detail Flow to display recipe recipeSteps and navigation between them.
 * [x] Application uses Exoplayer to display videos.
 * [x] Application properly initializes and releases video assets when appropriate.
-* [ ] Application should properly retrieve media assets from the provided network links. It should properly handle network requests.
+* [x] Application should properly retrieve media assets from the provided network links. It should properly handle network requests.
 * [ ] Application makes use of Espresso to test aspects of the UI.
 * [x] Application sensibly utilizes a third-party library to enhance the app's features. That could be helper library to interface with ContentProviders if you choose to store the recipes, a UI binding library to avoid writing findViewById a bunch of times, or something similar.
 
@@ -29,7 +29,7 @@ Meets Specifications:
 Meets Specifications:
 
 * [ ] Application has a companion homescreen widget.
-* [ ] Widget displays name list for desired recipe.
+* [ ] Widget displays ingredient list for desired recipe.
 
 ### Third-party libraries used
 
