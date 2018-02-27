@@ -6,6 +6,7 @@ import com.tachyonlabs.bakingapp.activities.RecipeListActivity;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,7 +25,7 @@ public class BakingAppWidget extends AppWidgetProvider {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_app_widget);
         views.setTextViewText(R.id.appwidget_text, context.getString(R.string.app_name));
 
-        //SharedPreferences sharedPreferencesForWidget = PreferenceManager.getDefaultSharedPreferences(context);
+        // Get info on the most-recently-viewed recipe from SharedPreferences
         SharedPreferences sharedPreferencesForWidget = context.getSharedPreferences(context.getString(R.string.pref_file_name), Context.MODE_PRIVATE | Context.MODE_MULTI_PROCESS);
         String recipeName = sharedPreferencesForWidget.getString(context.getString(R.string.recipe_name_key), "Recipe name");
         String recipeIngredients = sharedPreferencesForWidget.getString(context.getString(R.string.recipe_ingredients_key), "");
@@ -35,7 +36,7 @@ public class BakingAppWidget extends AppWidgetProvider {
         if (!recipeThumbnailUrl.equals("")) {
             Picasso.with(context)
                     .load(recipeThumbnailUrl)
-                    .into(views, R.id.iv_widget_recipe_photo, new int[] {appWidgetId});
+                    .into(views, R.id.iv_widget_recipe_photo, new int[]{appWidgetId});
         }
 
         // An intent and click handler to launch the app when tapped
@@ -64,5 +65,13 @@ public class BakingAppWidget extends AppWidgetProvider {
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
     }
-}
 
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        // called when the user selects a new recipe, to update the widget accordingly
+        ComponentName bakingAppWidget = new ComponentName(context.getPackageName(), BakingAppWidget.class.getName());
+        int[] appWidgetIds = AppWidgetManager.getInstance(context).getAppWidgetIds(bakingAppWidget);
+        onUpdate(context, AppWidgetManager.getInstance(context), appWidgetIds);
+        super.onReceive(context, intent);
+    }
+}

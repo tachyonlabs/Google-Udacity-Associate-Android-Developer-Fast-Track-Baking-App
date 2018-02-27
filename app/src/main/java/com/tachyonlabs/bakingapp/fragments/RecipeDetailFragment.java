@@ -7,6 +7,7 @@ import com.tachyonlabs.bakingapp.adapters.RecipeStepAdapter;
 import com.tachyonlabs.bakingapp.models.Recipe;
 import com.tachyonlabs.bakingapp.models.RecipeIngredient;
 
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -78,6 +79,10 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter.
             editor.putString(getString(R.string.recipe_ingredients_key), getAndFormatIngredients());
             editor.putString(getString(R.string.recipe_thumbnail_url_key), recipe.getThumbnailUrl());
             editor.commit();
+
+            // and let the widget know there is a new most-recently-selected recipe
+            Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            getContext().sendBroadcast(intent);
         } else {
             recipe = savedInstanceState.getParcelable(getString(R.string.recipe_key));
         }

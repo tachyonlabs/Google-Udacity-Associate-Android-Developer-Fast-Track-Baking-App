@@ -29,7 +29,7 @@ Meets Specifications:
 Meets Specifications:
 
 * [x] Application has a companion homescreen widget.
-* [ ] Widget displays ingredient list for desired recipe.
+* [x] Widget displays ingredient list for desired recipe.
 
 ### Third-party libraries used
 
