@@ -11,14 +11,14 @@
     <item>
         <shape>
             <padding android:top="0dp" android:right="1dp" android:bottom="1dp" android:left="0dp" />
-            <solid android:color="@color/card_shadow_1" />
+            <solid android:color="@color/card_shadow_2" />
             <corners android:radius="6dp" />
         </shape>
     </item>
     <item>
         <shape>
             <padding android:top="0dp" android:right="1dp" android:bottom="2dp" android:left="0dp" />
-            <solid android:color="@color/card_shadow_2" />
+            <solid android:color="@color/card_shadow_1" />
             <corners android:radius="6dp" />
         </shape>
     </item>

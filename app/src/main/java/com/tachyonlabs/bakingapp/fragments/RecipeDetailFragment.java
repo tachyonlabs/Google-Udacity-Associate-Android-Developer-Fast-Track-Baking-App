@@ -9,6 +9,7 @@ import com.tachyonlabs.bakingapp.models.RecipeIngredient;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -69,25 +70,28 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter.
         if (savedInstanceState == null) {
             Intent callingIntent = getActivity().getIntent();
             recipe = callingIntent.getParcelableExtra(getString(R.string.recipe_key));
+
+            // save selected recipe details to SharedPreferences for the widget to use
+            SharedPreferences sharedPreferencesForWidget = getContext().getSharedPreferences(getString(R.string.pref_file_name), Context.MODE_PRIVATE | Context.MODE_MULTI_PROCESS);
+            SharedPreferences.Editor editor = sharedPreferencesForWidget.edit();
+            editor.putString(getString(R.string.recipe_name_key), recipe.getName());
+            editor.putString(getString(R.string.recipe_ingredients_key), getAndFormatIngredients());
+            editor.putString(getString(R.string.recipe_thumbnail_url_key), recipe.getThumbnailUrl());
+            editor.commit();
         } else {
             recipe = savedInstanceState.getParcelable(getString(R.string.recipe_key));
         }
 
         Picasso.with(getContext())
-                .load(recipe.getImage())
+                .load(recipe.getImageUrl())
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .error(R.drawable.ic_launcher_foreground)
                 .into(ivRecipeDetailPhoto);
 
         tvRecipeName.setText(recipe.getName());
-        RecipeIngredient[] recipeIngredients = recipe.getIngredients();
-        String[] ingredients = new String[recipeIngredients.length];
-        for (int i = 0; i < ingredients.length; i++) {
-            ingredients[i] = recipeIngredients[i].getQuantityUnitNameString();
-        }
         String servingsDesc = String.format("%d serving%s", recipe.getServings(), recipe.getServings() != 1 ? "s" : "");
         tvRecipeServings.setText(servingsDesc);
-        tvIngredientsList.setText(TextUtils.join("\n", ingredients));
+        tvIngredientsList.setText(getAndFormatIngredients());
         ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
         ab.setTitle(recipe.getName());
 
@@ -99,6 +103,15 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter.
         }
 
         return rootView;
+    }
+
+    private String getAndFormatIngredients() {
+        RecipeIngredient[] recipeIngredients = recipe.getIngredients();
+        String[] ingredients = new String[recipeIngredients.length];
+        for (int i = 0; i < ingredients.length; i++) {
+            ingredients[i] = recipeIngredients[i].getQuantityUnitNameString();
+        }
+        return TextUtils.join("\n", ingredients);
     }
 
     @Override

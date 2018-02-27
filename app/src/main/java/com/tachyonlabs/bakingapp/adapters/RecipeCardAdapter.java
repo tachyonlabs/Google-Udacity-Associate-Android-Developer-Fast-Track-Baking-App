@@ -37,7 +37,7 @@ public class RecipeCardAdapter extends RecyclerView.Adapter<RecipeCardAdapter.Re
     @Override
     public void onBindViewHolder(RecipeCardAdapterViewHolder holder, int position) {
         String recipeTitle = mRecipes[position].getName();
-        String recipeImageUrl = mRecipes[position].getImage();
+        String recipeImageUrl = mRecipes[position].getImageUrl();
         String recipeBlurb = mRecipes[position].getBlurb();
 
         // TODO make placeholder and error images later too

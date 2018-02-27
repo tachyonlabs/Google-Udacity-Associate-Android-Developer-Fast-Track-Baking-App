@@ -13,7 +13,12 @@
     <string name="recipe_key" translatable="false">recipe</string>
     <string name="which_step_key" translatable="false">whichStep</string>
     <string name="recipes_key" translatable="false">recipes</string>
+    <string name="recipe_name_key" translatable="false">recipe name</string>
+    <string name="recipe_ingredients_key" translatable="false">recipe ingredients</string>
+    <string name="recipe_thumbnail_url_key" translatable="false">recipe thumbnailUrl url</string>
+
     <string name="exoplayer_position_key" translatable="false">ExoPlayer Position</string>
-    <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="pref_file_name" translatable="false">baking_time_prefs_for_widget</string>
+
 </resources>

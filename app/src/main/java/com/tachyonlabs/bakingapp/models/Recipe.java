@@ -22,8 +22,18 @@ public class Recipe implements Parcelable {
     private RecipeIngredient[] ingredients;
     private RecipeStep[] steps;
     private int servings;
-    private String image;
+    private String imageUrl;
+    private String thumbnailUrl;
     private String blurb;
+
+
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
+    }
+
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
+    }
 
     private Recipe(Parcel in) {
         id = in.readInt();
@@ -31,17 +41,19 @@ public class Recipe implements Parcelable {
         ingredients = in.createTypedArray(RecipeIngredient.CREATOR);
         steps = in.createTypedArray(RecipeStep.CREATOR);
         servings = in.readInt();
-        image = in.readString();
+        imageUrl = in.readString();
+        thumbnailUrl = in.readString();
         blurb = in.readString();
     }
 
-    public Recipe(int id, String name, RecipeIngredient[] recipeIngredients, RecipeStep[] recipeSteps, int servings, String image, String blurb) {
+    public Recipe(int id, String name, RecipeIngredient[] recipeIngredients, RecipeStep[] recipeSteps, int servings, String imageUrl, String thumbnailUrl, String blurb) {
         this.id = id;
         this.name = name;
         this.ingredients = recipeIngredients;
         this.steps = recipeSteps;
         this.servings = servings;
-        this.image = image;
+        this.imageUrl = imageUrl;
+        this.thumbnailUrl = thumbnailUrl;
         this.blurb = blurb;
     }
 
@@ -93,12 +105,12 @@ public class Recipe implements Parcelable {
         this.servings = servings;
     }
 
-    public String getImage() {
-        return image;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getBlurb() {
@@ -121,7 +133,8 @@ public class Recipe implements Parcelable {
         parcel.writeTypedArray(ingredients, flags);
         parcel.writeTypedArray(steps, flags);
         parcel.writeInt(servings);
-        parcel.writeString(image);
+        parcel.writeString(imageUrl);
+        parcel.writeString(thumbnailUrl);
         parcel.writeString(blurb);
     }
 }
