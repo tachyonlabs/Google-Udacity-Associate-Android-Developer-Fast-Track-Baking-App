@@ -40,7 +40,6 @@ public class RecipeCardAdapter extends RecyclerView.Adapter<RecipeCardAdapter.Re
         String recipeImageUrl = mRecipes[position].getImageUrl();
         String recipeBlurb = mRecipes[position].getBlurb();
 
-        // TODO make placeholder and error images later too
         Picasso.with(holder.ivRecipePhoto.getContext())
                 .load(recipeImageUrl)
                 .placeholder(R.drawable.ic_launcher_foreground)

@@ -3,22 +3,22 @@
                                     xmlns:card_view="http://schemas.android.com/apk/res-auto"
                                     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/cv_recipe_card"
                                     android:layout_width="match_parent"
-                                    android:layout_height="128dp"
-                                    android:layout_marginLeft="12dp"
-                                    android:layout_marginRight="12dp"
-                                    android:layout_marginBottom="24dp"
+                                    android:layout_height="@dimen/recipe_card_height"
+                                    android:layout_marginLeft="@dimen/recipe_card_horizontal_margin"
+                                    android:layout_marginRight="@dimen/recipe_card_horizontal_margin"
+                                    android:layout_marginBottom="@dimen/recipe_card_bottom_margin"
                                     card_view:cardCornerRadius="6dp"
                                     card_view:cardElevation="6dp">
 
     <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF">
+            android:background="@android:color/white">
 
         <ImageView
                 android:id="@+id/iv_recipe_photo"
-                android:layout_width="144dp"
-                android:layout_height="128dp"
+                android:layout_width="@dimen/recipe_detail_image_width"
+                android:layout_height="@dimen/recipe_detail_image_height"
                 android:scaleType="fitXY"
                 android:adjustViewBounds="true"
                 android:layout_alignParentLeft="true"
@@ -26,13 +26,13 @@
 
         <TextView
                 android:id="@+id/tv_recipe_name"
-                android:textSize="30sp"
+                android:textSize="@dimen/recipe_card_recipe_name_text_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/iv_recipe_photo"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginLeft="@dimen/recipe_card_recipe_name_left_margin"
+                android:layout_marginTop="@dimen/recipe_card_recipe_name_top_margin"
                 tools:text="Recipe Name"
                 tools:fontFamily="sans-serif"
                 android:fontFamily="@font/la_belle_aurore"/>
@@ -43,9 +43,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_recipe_name"
                 android:layout_toRightOf="@id/iv_recipe_photo"
-                android:layout_marginLeft="14dp"
-                android:layout_marginRight="14dp"
-                android:textSize="16sp"
+                android:layout_marginLeft="@dimen/recipe_card_blurb_horizontal_margin"
+                android:layout_marginRight="@dimen/recipe_card_blurb_horizontal_margin"
+                android:textSize="@dimen/recipe_card_blurb_text_size"
                 android:lineSpacingMultiplier="1.1"
                 tools:text="Your family will love this delicious baked treat!"/>
 

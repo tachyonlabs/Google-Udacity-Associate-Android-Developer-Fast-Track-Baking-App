@@ -22,7 +22,7 @@
 
     <SeekBar android:id="@id/exo_progress"
              android:layout_width="match_parent"
-             android:layout_height="28dp"
+             android:layout_height="@dimen/exoplayer_seek_bar_height"
              android:focusable="false"
              style="?android:attr/progressBarStyleHorizontal"
              android:thumbTint="@color/colorPrimary"
@@ -39,30 +39,30 @@
                      style="@style/ExoMediaButton.Previous"
                      android:layout_alignParentTop="true"
                      android:layout_alignParentLeft="true"
-                     android:layout_marginLeft="-10dp"
-                     android:layout_marginTop="-12dp"/>
+                     android:layout_marginLeft="@dimen/exoplayer_controls_left_margin"
+                     android:layout_marginTop="@dimen/exoplayer_controls_top_margin"/>
 
         <ImageButton android:id="@id/exo_play"
                      style="@style/ExoMediaButton.Play"
                      android:layout_alignParentTop="true"
-                     android:layout_marginLeft="-10dp"
+                     android:layout_marginLeft="@dimen/exoplayer_controls_left_margin"
                      android:layout_toRightOf="@id/exo_prev"
-                     android:layout_marginTop="-12dp"/>
+                     android:layout_marginTop="@dimen/exoplayer_controls_top_margin"/>
 
         <ImageButton android:id="@id/exo_pause"
                      style="@style/ExoMediaButton.Pause"
                      android:layout_alignParentTop="true"
                      android:layout_toRightOf="@id/exo_prev"
-                     android:layout_marginLeft="-10dp"
-                     android:layout_marginTop="-12dp"/>
+                     android:layout_marginLeft="@dimen/exoplayer_controls_left_margin"
+                     android:layout_marginTop="@dimen/exoplayer_controls_top_margin"/>
 
         <TextView android:id="@id/exo_position"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:textSize="20sp"
-                  android:textColor="#FFFFFFFF"
-                  android:paddingLeft="4dp"
-                  android:paddingRight="4dp"
+                  android:textSize="@dimen/exoplayer_position_label_text_size"
+                  android:textColor="@android:color/white"
+                  android:paddingLeft="@dimen/exoplayer_position_label_padding"
+                  android:paddingRight="@dimen/exoplayer_position_label_padding"
                   android:layout_alignParentTop="true"
                   android:textStyle="bold"
                   android:layout_toLeftOf="@id/tv_time_slash"/>
@@ -71,23 +71,23 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:text="/"
-                  android:textSize="20sp"
+                  android:textSize="@dimen/exoplayer_position_label_text_size"
                   android:textStyle="bold"
-                  android:paddingLeft="4dp"
-                  android:paddingRight="4dp"
-                  android:textColor="#FFFFFFFF"
+                  android:paddingLeft="@dimen/exoplayer_position_label_padding"
+                  android:paddingRight="@dimen/exoplayer_position_label_padding"
+                  android:textColor="@android:color/white"
                   android:layout_alignParentTop="true"
                   android:layout_toLeftOf="@id/exo_duration"/>
 
         <TextView android:id="@id/exo_duration"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:textSize="20sp"
+                  android:textSize="@dimen/exoplayer_position_label_text_size"
                   android:textStyle="bold"
-                  android:paddingLeft="4dp"
-                  android:paddingRight="4dp"
-                  android:layout_marginRight="10dp"
-                  android:textColor="#FFFFFFFF"
+                  android:paddingLeft="@dimen/exoplayer_position_label_padding"
+                  android:paddingRight="@dimen/exoplayer_position_label_padding"
+                  android:layout_marginRight="@dimen/exoplayer_position_label_margin_right"
+                  android:textColor="@android:color/white"
                   android:layout_alignParentTop="true"
                   android:layout_alignParentRight="true"/>
 

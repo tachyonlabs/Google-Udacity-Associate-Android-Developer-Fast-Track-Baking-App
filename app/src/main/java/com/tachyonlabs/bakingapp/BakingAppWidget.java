@@ -12,9 +12,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.RemoteViews;
 
-/**
- * Implementation of App Widget functionality.
- */
 public class BakingAppWidget extends AppWidgetProvider {
     final static String TAG = BakingAppWidget.class.getSimpleName();
 
@@ -58,17 +55,15 @@ public class BakingAppWidget extends AppWidgetProvider {
 
     @Override
     public void onEnabled(Context context) {
-        // Enter relevant functionality for when the first widget is created
     }
 
     @Override
     public void onDisabled(Context context) {
-        // Enter relevant functionality for when the last widget is disabled
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        // called when the user selects a new recipe, to update the widget accordingly
+        // called when the user selects a recipe in the app, to update the widget accordingly
         ComponentName bakingAppWidget = new ComponentName(context.getPackageName(), BakingAppWidget.class.getName());
         int[] appWidgetIds = AppWidgetManager.getInstance(context).getAppWidgetIds(bakingAppWidget);
         onUpdate(context, AppWidgetManager.getInstance(context), appWidgetIds);

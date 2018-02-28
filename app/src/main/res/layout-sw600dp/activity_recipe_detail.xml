@@ -10,7 +10,7 @@
     <fragment
             android:id="@+id/recipe_detail_fragment_for_tablet"
             android:name="com.tachyonlabs.bakingapp.fragments.RecipeDetailFragment"
-            android:layout_width="300dp"
+            android:layout_width="@dimen/tablet_layout_left_pane_width"
             android:layout_height="match_parent"/>
 
     <fragment

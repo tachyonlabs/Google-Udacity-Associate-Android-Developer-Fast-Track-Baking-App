@@ -80,7 +80,7 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter.
             editor.putString(getString(R.string.recipe_thumbnail_url_key), recipe.getThumbnailUrl());
             editor.commit();
 
-            // and let the widget know there is a new most-recently-selected recipe
+            // and let the widget know there is a new most-recently-selected recipe to display
             Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
             getContext().sendBroadcast(intent);
         } else {
@@ -94,6 +94,7 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter.
                 .into(ivRecipeDetailPhoto);
 
         tvRecipeName.setText(recipe.getName());
+
         String servingsDesc = String.format("%d serving%s", recipe.getServings(), recipe.getServings() != 1 ? "s" : "");
         tvRecipeServings.setText(servingsDesc);
         tvIngredientsList.setText(getAndFormatIngredients());

@@ -1,11 +1,8 @@
 # Baking App
-When completed, this will be my submission for the third project in the Google/Udacity "Associate Android Developer Fast Track" course.
+When completed, this will be my submission for the third project in the Google/Udacity "Associate Android Developer Fast Track" course. Click the links below to see a video walkthrough of the app on my phone, and a quick video look at the tablet version of the app's UI.
 
-![A screenshot of my Baking Time App](https://raw.githubusercontent.com/tachyonlabs/Google-Udacity-Associate-Android-Developer-Fast-Track-Baking-App/master/baking-time-screenshot.png "A screenshot of my Baking Time App")
-
-![A screenshot of a recipe detail on my Baking Time App](https://raw.githubusercontent.com/tachyonlabs/Google-Udacity-Associate-Android-Developer-Fast-Track-Baking-App/master/baking-time-recipe-detail-screenshot.png "A screenshot of a recipe detail on my Baking Time App")
-
-![A screenshot of a recipe step detail on my Baking Time App](https://raw.githubusercontent.com/tachyonlabs/Google-Udacity-Associate-Android-Developer-Fast-Track-Baking-App/master/baking-time-recipe-step-detail-screenshot.png "A screenshot of a recipe step detail on my Baking Time App")
+* [A video walkthrough of the app on my phone](https://youtu.be/NCMpv-NfJbw)
+* [A quick video look at the tablet version of the app's UI](https://youtu.be/ka6TEsdS_bw)
 
 ### General App Usage
 Meets Specifications:
@@ -13,7 +10,7 @@ Meets Specifications:
 * [x] App should display recipes from provided network resource.
 * [x] App should allow navigation between individual recipes and recipe recipeSteps.
 * [x] App uses RecyclerView and can handle recipe recipeSteps that include videos or images.
-* [ ] App conforms to common standards found in the [Android Nanodegree General Project Guidelines](http://udacity.github.io/android-nanodegree-guidelines/core.html).
+* [x] App conforms to common standards found in the [Android Nanodegree General Project Guidelines](http://udacity.github.io/android-nanodegree-guidelines/core.html).
 
 ### Components and Libraries
 Meets Specifications:

@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
+import android.widget.TextView;
 
 public class RecipeDetailActivity extends AppCompatActivity implements RecipeDetailFragment.OnStepClickListener {
     private static final String TAG = RecipeDetailActivity.class.getSimpleName();
@@ -22,8 +24,11 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
         Intent callingIntent = getIntent();
         recipe = callingIntent.getParcelableExtra(getString(R.string.recipe_key));
 
+        // if we're on a tablet, we're doing a two-pane layout
         if (findViewById(R.id.recipe_detail_fragment_for_tablet) != null) {
             mTwoPane = true;
+            TextView recipeDetailName = findViewById(R.id.tv_recipe_detail_name);
+            recipeDetailName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
         } else {
             mTwoPane = false;
         }

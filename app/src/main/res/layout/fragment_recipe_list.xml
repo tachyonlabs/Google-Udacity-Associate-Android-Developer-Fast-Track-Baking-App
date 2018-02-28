@@ -8,9 +8,9 @@
             android:id="@+id/rv_recipe_cards"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="24dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
+            android:paddingTop="@dimen/recipe_list_recyclerview_top_padding"
+            android:paddingLeft="@dimen/recipe_list_recyclerview_horizontal_padding"
+            android:paddingRight="@dimen/recipe_list_recyclerview_horizontal_padding"
             android:background="@color/colorPrimaryPale"/>
 
     <TextView

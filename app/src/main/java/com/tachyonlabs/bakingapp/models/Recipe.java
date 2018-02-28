@@ -27,14 +27,6 @@ public class Recipe implements Parcelable {
     private String blurb;
 
 
-    public String getThumbnailUrl() {
-        return thumbnailUrl;
-    }
-
-    public void setThumbnailUrl(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
-    }
-
     private Recipe(Parcel in) {
         id = in.readInt();
         name = in.readString();
@@ -55,6 +47,14 @@ public class Recipe implements Parcelable {
         this.imageUrl = imageUrl;
         this.thumbnailUrl = thumbnailUrl;
         this.blurb = blurb;
+    }
+
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
+    }
+
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
     }
 
     public int getId() {

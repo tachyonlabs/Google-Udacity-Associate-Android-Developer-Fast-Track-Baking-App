@@ -110,6 +110,7 @@ public class RecipeJsonUtils {
             String stepDescription = stepJson.getString(JSON_RECIPE_DESCRIPTION_KEY);
             String stepVideoUrl = stepJson.getString(JSON_RECIPE_VIDEO_URL_KEY);
             String stepThumbnailUrl = stepJson.getString(JSON_RECIPE_THUMBNAIL_URL_KEY);
+
             // There's one step where the video URL is in the wrong JSON field
             if (stepVideoUrl.equals("") && stepThumbnailUrl.endsWith(MP4_FILE_TYPE)) {
                 stepVideoUrl = stepThumbnailUrl;

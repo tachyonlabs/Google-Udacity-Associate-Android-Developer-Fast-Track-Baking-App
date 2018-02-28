@@ -1,12 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--for recipe list fragment layout-->
     <dimen name="loading_indicator_width_and_height">42dp</dimen>
     <dimen name="error_message_text_size">20sp</dimen>
     <dimen name="error_message_padding">16dp</dimen>
+    <dimen name="recipe_list_recyclerview_top_padding">24dp</dimen>
+    <dimen name="recipe_list_recyclerview_horizontal_padding">12dp</dimen>
 
-    <!--
-Refer to App Widget Documentation for margin information
-http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
-    -->
+    <!--for item recipe card layout-->
+    <dimen name="recipe_card_height">128dp</dimen>
+    <dimen name="recipe_card_horizontal_margin">12dp</dimen>
+    <dimen name="recipe_card_bottom_margin">24dp</dimen>
+    <dimen name="recipe_card_recipe_name_text_size">30sp</dimen>
+    <dimen name="recipe_card_recipe_name_left_margin">16dp</dimen>
+    <dimen name="recipe_card_recipe_name_top_margin">4dp</dimen>
+    <dimen name="recipe_card_blurb_horizontal_margin">14dp</dimen>
+    <dimen name="recipe_card_blurb_text_size">16sp</dimen>
+
+    <!--for recipe detail fragment layout-->
+    <dimen name="recipe_detail_image_width">144dp</dimen>
+    <dimen name="recipe_detail_image_height">128dp</dimen>
+    <dimen name="recipe_detail_image_bottom_margin">10dp</dimen>
+    <dimen name="recipe_detail_recyclerview_top_padding">13dp</dimen>
+    <dimen name="recipe_detail_drop_shadow_height">11dp</dimen>
+    <dimen name="recipe_detail_text_horizontal_margin">20dp</dimen>
+    <dimen name="recipe_detail_recipe_name_top_margin">14dp</dimen>
+    <dimen name="recipe_detail_recipe_name_text_size">44sp</dimen>
+    <dimen name="recipe_detail_recipe_servings_top_margin">-5dp</dimen>
+    <dimen name="recipe_detail_recipe_servings_text_size">24sp</dimen>
+    <dimen name="recipe_detail_recipe_ingredients_top_margin">2dp</dimen>
+    <dimen name="recipe_detail_recipe_ingredients_bottom_margin">18dp</dimen>
+    <dimen name="recipe_detail_recipe_ingredients_text_size">16sp</dimen>
+
+    <!--for item step card layout-->
+    <dimen name="step_card_cardview_margins">24dp</dimen>
+    <dimen name="step_card_description_margin">14dp</dimen>
+    <dimen name="step_card_decription_text_size">16sp</dimen>
+
+    <!--for two-pane tablet layout-->
+    <dimen name="tablet_layout_left_pane_width">300dp</dimen>
+
+    <!--for recipe step fragment layout-->
+    <dimen name="recipe_step_loading_indicator_top_margin">90dp</dimen>
+    <dimen name="recipe_step_description_margin">20dp</dimen>
+    <dimen name="recipe_step_description_text_size">20sp</dimen>
+
+    <!--for ExoPlayer-->
+    <dimen name="exoplayer_seek_bar_height">28dp</dimen>
+    <dimen name="exoplayer_controls_left_margin">-10dp</dimen>
+    <dimen name="exoplayer_controls_top_margin">-12dp</dimen>
+    <dimen name="exoplayer_position_label_text_size">20sp</dimen>
+    <dimen name="exoplayer_position_label_padding">4dp</dimen>
+    <dimen name="exoplayer_position_label_margin_right">10dp</dimen>
+
+    <!--for the widget-->
     <dimen name="widget_margin">8dp</dimen>
+    <dimen name="widget_title_text_size">18sp</dimen>
+    <dimen name="widget_title_padding">8dp</dimen>
+    <dimen name="widget_image_width">54dp</dimen>
+    <dimen name="widget_image_height">48dp</dimen>
+    <dimen name="widget_recipe_name_text_size">24sp</dimen>
+    <dimen name="widget_recipe_name_margin_top">2dp</dimen>
+    <dimen name="widget_text_margin_left">12dp</dimen>
+    <dimen name="widget_ingredients_margin_top">10dp</dimen>
+    <dimen name="widget_ingredients_text_size">13sp</dimen>
 </resources>
