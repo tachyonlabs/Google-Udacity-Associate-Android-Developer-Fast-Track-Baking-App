@@ -8,6 +8,8 @@ When completed, this will be my submission for the third project in the Google/U
 
 ### Screenshots
 
+![Baking Time opening activity](https://github.com/tachyonlabs/Google-Udacity-Associate-Android-Developer-Fast-Track-Baking-App/blob/master/baking-time-phone-1.png) ![Baking Time detail activity](https://github.com/tachyonlabs/Google-Udacity-Associate-Android-Developer-Fast-Track-Baking-App/blob/master/baking-time-phone-2.png) ![Baking Time step activity](https://github.com/tachyonlabs/Google-Udacity-Associate-Android-Developer-Fast-Track-Baking-App/blob/master/baking-time-phone-3.png) ![Baking Time widget](https://github.com/tachyonlabs/Google-Udacity-Associate-Android-Developer-Fast-Track-Baking-App/blob/master/baking-time-phone-4.png)
+
 ### General App Usage
 Meets Specifications:
 
