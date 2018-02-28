@@ -1,8 +1,12 @@
 # Baking App
 When completed, this will be my submission for the third project in the Google/Udacity "Associate Android Developer Fast Track" course. Click the links below to see a video walkthrough of the app on my phone, and a quick video look at the tablet version of the app's UI.
 
+### Video Walkthroughs
+
 * [A video walkthrough of the app on my phone](https://youtu.be/NCMpv-NfJbw)
 * [A quick video look at the tablet version of the app's UI](https://youtu.be/ka6TEsdS_bw)
+
+### Screenshots
 
 ### General App Usage
 Meets Specifications:

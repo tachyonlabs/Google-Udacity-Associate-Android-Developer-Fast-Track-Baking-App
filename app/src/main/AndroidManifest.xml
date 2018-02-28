@@ -23,6 +23,7 @@
         </activity>
         <activity
                 android:name=".activities.RecipeDetailActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
                 android:launchMode="singleTop"
                 android:parentActivityName=".activities.RecipeListActivity">
             <meta-data
@@ -31,6 +32,7 @@
         </activity>
         <activity
                 android:name=".activities.RecipeStepActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
                 android:parentActivityName=".activities.RecipeDetailActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
