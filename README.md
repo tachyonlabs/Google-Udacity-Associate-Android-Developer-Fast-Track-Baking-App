@@ -1,16 +1,16 @@
 # Baking App
-When completed, this will be my submission for the third project in the Google/Udacity "Associate Android Developer Fast Track" course. Click the links below to see a video walkthrough of the app on my phone, and a quick video look at the tablet version of the app's UI.
+My submission for the third project in the Google/Udacity "Associate Android Developer Fast Track" course. 
 
 ### Video Walkthroughs
 
-* [A video walkthrough of the app on my phone](https://youtu.be/NCMpv-NfJbw)
-* [A quick video look at the tablet version of the app's UI](https://youtu.be/ka6TEsdS_bw)
+* [A video walkthrough of the app on my phone](https://youtu.be/9NARyrFroOE)
+* [A quick video look at the tablet version of the app's UI](https://youtu.be/Ir6KqWf2-QU)
 
 ### Screenshots
 
-![Baking Time opening activity](https://github.com/tachyonlabs/Google-Udacity-Associate-Android-Developer-Fast-Track-Baking-App/blob/master/baking-time-phone-1.png) &nbsp; ![Baking Time detail activity](https://github.com/tachyonlabs/Google-Udacity-Associate-Android-Developer-Fast-Track-Baking-App/blob/master/baking-time-phone-2.png) &nbsp; ![Baking Time step activity](https://github.com/tachyonlabs/Google-Udacity-Associate-Android-Developer-Fast-Track-Baking-App/blob/master/baking-time-phone-3.png)
+![Baking Time recipe list activity](https://github.com/tachyonlabs/Google-Udacity-Associate-Android-Developer-Fast-Track-Baking-App/blob/master/baking-time-phone-1.png "Baking Time recipe list activity") &nbsp; &nbsp; ![Baking Time recipe detail activity](https://github.com/tachyonlabs/Google-Udacity-Associate-Android-Developer-Fast-Track-Baking-App/blob/master/baking-time-phone-2.png "Baking Time recipe detail activity") &nbsp; &nbsp; ![Baking Time recipe step activity](https://github.com/tachyonlabs/Google-Udacity-Associate-Android-Developer-Fast-Track-Baking-App/blob/master/baking-time-phone-3.png "Baking Time recipe step activity")
 
-![Baking Time widget](https://github.com/tachyonlabs/Google-Udacity-Associate-Android-Developer-Fast-Track-Baking-App/blob/master/baking-time-phone-4.png) &nbsp; ![Baking Time Detail and Step fragments on tablet in landscape mode](https://github.com/tachyonlabs/Google-Udacity-Associate-Android-Developer-Fast-Track-Baking-App/blob/master/baking-time-tablet.png)
+![Baking Time widget](https://github.com/tachyonlabs/Google-Udacity-Associate-Android-Developer-Fast-Track-Baking-App/blob/master/baking-time-phone-4.png "Baking Time widget") &nbsp; &nbsp; ![Baking Time recipe detail and recipe step fragments on tablet in landscape mode](https://github.com/tachyonlabs/Google-Udacity-Associate-Android-Developer-Fast-Track-Baking-App/blob/master/baking-time-tablet.png "Baking Time recipe detail and recipe step fragments on tablet in landscape mode")
 
 ### General App Usage
 Meets Specifications:
@@ -27,7 +27,7 @@ Meets Specifications:
 * [x] Application uses Exoplayer to display videos.
 * [x] Application properly initializes and releases video assets when appropriate.
 * [x] Application should properly retrieve media assets from the provided network links. It should properly handle network requests.
-* [ ] Application makes use of Espresso to test aspects of the UI.
+* [x] Application makes use of Espresso to test aspects of the UI.
 * [x] Application sensibly utilizes a third-party library to enhance the app's features. That could be helper library to interface with ContentProviders if you choose to store the recipes, a UI binding library to avoid writing findViewById a bunch of times, or something similar.
 
 ### Homescreen Widget

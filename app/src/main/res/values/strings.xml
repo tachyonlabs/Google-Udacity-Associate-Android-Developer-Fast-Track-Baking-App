@@ -6,6 +6,8 @@
         try again.
     </string>
     <string name="retry_internet_connection">Retry</string>
+    <string name="no_internet_connection_cant_load_videos">Can\'t load recipe step video - no Internet connection.</string>
+    <string name="fix_internet_connection_or_cant_load_videos">You can still read recipe step instructions, but you won\'t be able to watch recipe step videos until you fix your Internet connection.</string>
 
     <string name="next_button">Next</string>
     <string name="previous_button">Previous</string>

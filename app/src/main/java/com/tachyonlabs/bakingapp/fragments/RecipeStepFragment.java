@@ -180,12 +180,6 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
         } else {
             if (!NetworkUtils.isNetworkAvailable(getContext()) || !NetworkUtils.isOnline()) {
                 fixYourInternetConnectionDialog();
-            }
-
-            // TODO if they fix their connection and then click OK above, it doesn't seem like the
-            // following actually waits to check until after the dialog is dismissed -- my attempts
-            // to get that to work properly have not been successful yet
-            if (!NetworkUtils.isNetworkAvailable(getContext()) || !NetworkUtils.isOnline()) {
                 simpleExoPlayerView.setVisibility(View.GONE);
             } else {
                 simpleExoPlayerView.setVisibility(View.VISIBLE);
@@ -193,8 +187,7 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
                 MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(recipeStep.getVideoUrl()), new DefaultDataSourceFactory(
                         getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
                 simpleExoPlayer.prepare(mediaSource);
-                // to maintain time position in case of screen rotation; otherwise it's just 0
-                // TODO is there a way to not have it switch to a black screen when rotating a completed video?
+                // to maintain time position in case of savedInstanceState != null; otherwise it's just 0
                 simpleExoPlayer.seekTo(exoplayerPosition);
                 simpleExoPlayer.setPlayWhenReady(true);
             }
@@ -208,8 +201,8 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
         } else {
             builder = new AlertDialog.Builder(getContext());
         }
-        builder.setTitle("Can't load video - no Internet connection")
-                .setMessage("Fix your Internet connection, or recipe videos will not be loaded.")
+        builder.setTitle(getString(R.string.no_internet_connection_cant_load_videos))
+                .setMessage(getString(R.string.fix_internet_connection_or_cant_load_videos))
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // just return
@@ -256,9 +249,6 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
         releasePlayer();
     }
 
-    /**
-     * Release ExoPlayer.
-     */
     private void releasePlayer() {
         simpleExoPlayer.stop();
         simpleExoPlayer.release();
