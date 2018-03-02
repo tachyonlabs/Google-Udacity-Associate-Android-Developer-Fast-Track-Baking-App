@@ -178,7 +178,9 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
             // if the selected step has no video, don't show the player
             simpleExoPlayerView.setVisibility(View.GONE);
         } else {
-            if (!NetworkUtils.isNetworkAvailable(getContext()) || !NetworkUtils.isOnline()) {
+            if (!NetworkUtils.isNetworkAvailable(getContext())) {
+                // check for network before trying to download video -- if there's no connection,
+                // ExoPlayer just sits there trying to load without ever giving any feedback
                 fixYourInternetConnectionDialog();
                 simpleExoPlayerView.setVisibility(View.GONE);
             } else {

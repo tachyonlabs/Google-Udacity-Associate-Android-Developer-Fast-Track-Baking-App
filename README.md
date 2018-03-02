@@ -51,6 +51,6 @@ The JSON for the recipes contains URLs for videos illustrating some of the steps
 
 ### Additional acknowledgements/credits
 
-* isNetworkAvailable() and isOnline() methods for determining whether we have network and internet connections courtesy of [https://guides.codepath.com/android/Sending-and-Managing-Network-Requests](https://guides.codepath.com/android/Sending-and-Managing-Network-Requests)
+* isNetworkAvailable() method for determining whether we have network and internet connections courtesy of [https://guides.codepath.com/android/Sending-and-Managing-Network-Requests](https://guides.codepath.com/android/Sending-and-Managing-Network-Requests)
 
 * The card drawable used in the widget is based on [https://gist.github.com/MarsVard/8297976](https://gist.github.com/MarsVard/8297976)
