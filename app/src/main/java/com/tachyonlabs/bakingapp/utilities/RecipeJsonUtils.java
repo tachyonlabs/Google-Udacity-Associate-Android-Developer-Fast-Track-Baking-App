@@ -27,7 +27,6 @@ public class RecipeJsonUtils {
     private static final String JSON_RECIPE_DESCRIPTION_KEY = "description";
     private static final String JSON_RECIPE_VIDEO_URL_KEY = "videoURL";
     private static final String JSON_RECIPE_THUMBNAIL_URL_KEY = "thumbnailURL";
-    private static final String MP4_FILE_TYPE = ".mp4";
     private static final String LARGE_PHOTO_TYPE = "z.jpg";
     private static final String THUMBNAIL_PHOTO_TYPE = "s.jpg";
 
@@ -66,7 +65,7 @@ public class RecipeJsonUtils {
             JSONArray steps = recipe.getJSONArray(JSON_RECIPE_STEPS_KEY);
             RecipeStep[] recipeSteps = getStepsFromJson(context, steps);
 
-            if (recipeImageUrl.equals("")) {
+            if (recipeImageUrl.isEmpty()) {
                 recipeImageUrl = photoUrls.get(recipeName)[0] + LARGE_PHOTO_TYPE;
             }
             String recipethumbnailUrl = photoUrls.get(recipeName)[0] + THUMBNAIL_PHOTO_TYPE;
@@ -116,23 +115,12 @@ public class RecipeJsonUtils {
             String stepVideoUrl = stepJson.getString(JSON_RECIPE_VIDEO_URL_KEY);
             String stepThumbnailUrl = stepJson.getString(JSON_RECIPE_THUMBNAIL_URL_KEY);
 
-            // There's one step where the video URL is in the wrong JSON field, and the commented-
-            // out lines below are how I originally handled this. However, when I submitted this
-            // project, my reviewer said that I was required to change this, specifically
-            // "thumbnailUrl should be handled only as an image. Though some thumbnailUrl contain
-            // .mp4 link, it is an intentional error to induce error handling thinking."
-            // Personally, I think what I did below was error handling, but I'm required to change
-            // it then I'm required to change it. :-)
-//            if (stepVideoUrl.equals("") && stepThumbnailUrl.endsWith(MP4_FILE_TYPE)) {
-//                stepVideoUrl = stepThumbnailUrl;
-//                stepThumbnailUrl = "";
-//            }
-
             RecipeStep step = new RecipeStep(stepId,
                     stepShortDescription,
                     stepDescription,
                     stepVideoUrl,
                     stepThumbnailUrl);
+
             steps[i] = step;
         }
         return steps;

@@ -3,7 +3,7 @@ My submission for the third project in the Google/Udacity "Associate Android Dev
 
 ### Video Walkthroughs
 
-* [A video walkthrough of the app on my phone](https://youtu.be/9NARyrFroOE)
+* [A video walkthrough of the app on my phone](https://youtu.be/JPv0HgZUFWc)
 * [A quick video look at the tablet version of the app's UI](https://youtu.be/Ir6KqWf2-QU)
 
 ### Screenshots

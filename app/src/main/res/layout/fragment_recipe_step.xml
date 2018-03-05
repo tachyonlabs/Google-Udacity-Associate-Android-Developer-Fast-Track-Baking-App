@@ -14,6 +14,15 @@
                 android:layout_alignParentTop="true"
                 android:id="@+id/xo_recipe_step_videos"/>
 
+        <ImageView
+                android:id="@+id/iv_recipe_step_thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                android:layout_below="@id/xo_recipe_step_videos"
+                android:visibility="gone"/>
+
         <ProgressBar
                 android:id="@+id/pb_video_loading_indicator"
                 android:layout_height="@dimen/loading_indicator_width_and_height"
@@ -28,7 +37,7 @@
                 android:id="@+id/tv_step_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/xo_recipe_step_videos"
+                android:layout_below="@id/iv_recipe_step_thumbnail"
                 android:layout_alignParentLeft="true"
                 android:layout_margin="@dimen/recipe_step_description_margin"
                 android:textSize="@dimen/recipe_step_description_text_size"

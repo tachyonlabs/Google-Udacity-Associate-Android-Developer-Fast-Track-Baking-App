@@ -18,6 +18,7 @@ import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
+import com.squareup.picasso.Picasso;
 import com.tachyonlabs.bakingapp.R;
 import com.tachyonlabs.bakingapp.models.Recipe;
 import com.tachyonlabs.bakingapp.models.RecipeStep;
@@ -39,6 +40,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -54,6 +56,7 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
     private View mRootView;
     private Button mBtnNextStep;
     private Button mBtnPreviousStep;
+    private ImageView mIvStepThumbnail;
     private long mExoplayerPosition = 0;
 
     public RecipeStepFragment() {
@@ -69,7 +72,7 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
 
         // Initialize the player.
         initializePlayer();
-        mSimpleExoPlayer.addListener(this);
+//        mSimpleExoPlayer.addListener(this);
 
         // set up next and previous buttons to navigate between steps
         mBtnNextStep = mRootView.findViewById(R.id.btn_next_step);
@@ -87,10 +90,13 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
             }
         });
 
+        // and the thumbnail ImageView
+        mIvStepThumbnail = mRootView.findViewById(R.id.iv_recipe_step_thumbnail);
+
         if (savedInstanceState == null) {
             Intent callingIntent = getActivity().getIntent();
             if (callingIntent.hasExtra(getString(R.string.recipe_key))) {
-                mRecipe = (Recipe) callingIntent.getParcelableExtra(getString(R.string.recipe_key));
+                mRecipe = callingIntent.getParcelableExtra(getString(R.string.recipe_key));
                 mWhichStep = callingIntent.getIntExtra(getString(R.string.which_step_key), 0);
             }
         } else {
@@ -126,6 +132,7 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
             LoadControl loadControl = new DefaultLoadControl();
             mSimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
             mSimpleExoPlayerView.setPlayer(mSimpleExoPlayer);
+            mSimpleExoPlayer.addListener(this);
         }
     }
 
@@ -179,29 +186,55 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
         tvStepDescription.setText(stepDescription);
 
         // update the video for the selected step
-        if (mRecipeStep.getVideoUrl().equals("")) {
-            // if the selected step has no video, don't show the player
+        if (mRecipeStep.getVideoUrl().isEmpty()) {
+            // if the selected step has no video, show the thumbnail instead of ExoPlayer
             mSimpleExoPlayerView.setVisibility(View.GONE);
+            showThumbnail();
+
         } else {
+            // if the selected step has a video, don't show a thumbnail
+            mIvStepThumbnail.setVisibility(View.GONE);
+
+            // check for network before trying to download video -- if there's no connection,
+            // ExoPlayer just sits there trying to load without ever giving any feedback
             if (!NetworkUtils.isNetworkAvailable(getContext())) {
-                // check for network before trying to download video -- if there's no connection,
-                // ExoPlayer just sits there trying to load without ever giving any feedback
-                fixYourInternetConnectionDialog();
+                displayFixYourInternetConnectionAlertDialog();
                 mSimpleExoPlayerView.setVisibility(View.GONE);
+                showThumbnail();
             } else {
                 mSimpleExoPlayerView.setVisibility(View.VISIBLE);
                 String userAgent = Util.getUserAgent(getContext(), getString(R.string.app_name));
                 MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(mRecipeStep.getVideoUrl()), new DefaultDataSourceFactory(
                         getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
                 mSimpleExoPlayer.prepare(mediaSource);
-                // to maintain time position in case of savedInstanceState != null; otherwise it's just 0
+                // to maintain time position if the device is rotated or on lost focus; otherwise it's just 0
                 mSimpleExoPlayer.seekTo(mExoplayerPosition);
                 mSimpleExoPlayer.setPlayWhenReady(true);
             }
         }
     }
 
-    public void fixYourInternetConnectionDialog() {
+    // if a recipe step has no video, or can't load videos due to no network connection
+    public void showThumbnail() {
+        mIvStepThumbnail.setVisibility(View.VISIBLE);
+        String thumbnailUrl = mRecipeStep.getThumbnailUrl();
+
+        // show the thumbnail if (1) there is a thumbnail URL, (2) there is a network connection,
+        // and (3) it's a valid image file -- otherwise show the Baking Time placeholder image
+        if (!thumbnailUrl.isEmpty()) {
+            Picasso.with(getContext())
+                    .load(thumbnailUrl)
+                    .placeholder(R.drawable.baking_time)
+                    .error(R.drawable.baking_time)
+                    .into(mIvStepThumbnail);
+        } else {
+            Picasso.with(getContext())
+                    .load(R.drawable.baking_time)
+                    .into(mIvStepThumbnail);
+        }
+    }
+
+    public void displayFixYourInternetConnectionAlertDialog() {
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder = new AlertDialog.Builder(getContext(), android.R.style.Theme_Material_Dialog_Alert);
@@ -253,16 +286,18 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
     @Override
     public void onStart() {
         super.onStart();
-        if (Util.SDK_INT > 23) {
+        if (Util.SDK_INT > 23 && mSimpleExoPlayer == null) {
             initializePlayer();
+            updateStepNumberDescriptionAndVideo(mWhichStep);
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (Util.SDK_INT <= 23 || mSimpleExoPlayer == null) {
+        if (Util.SDK_INT <= 23 && mSimpleExoPlayer == null) {
             initializePlayer();
+            updateStepNumberDescriptionAndVideo(mWhichStep);
         }
     }
 

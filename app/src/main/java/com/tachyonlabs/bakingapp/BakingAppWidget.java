@@ -30,7 +30,7 @@ public class BakingAppWidget extends AppWidgetProvider {
 
         views.setTextViewText(R.id.tv_widget_recipe_name, recipeName);
         views.setTextViewText(R.id.tv_widget_ingredients_list, recipeIngredients);
-        if (!recipeThumbnailUrl.equals("")) {
+        if (!recipeThumbnailUrl.isEmpty()) {
             Picasso.with(context)
                     .load(recipeThumbnailUrl)
                     .into(views, R.id.iv_widget_recipe_photo, new int[]{appWidgetId});
