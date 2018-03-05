@@ -16,6 +16,7 @@ public class RecipeJsonUtils {
     private static final String TAG = RecipeJsonUtils.class.getSimpleName();
     private static final String JSON_RECIPE_NAME_KEY = "name";
     private static final String JSON_RECIPE_SERVINGS_KEY = "servings";
+    private static final String JSON_RECIPE_IMAGE_KEY = "image";
     private static final String JSON_RECIPE_INGREDIENTS_KEY = "ingredients";
     private static final String JSON_RECIPE_INGREDIENT_KEY = "ingredient";
     private static final String JSON_RECIPE_STEPS_KEY = "steps";
@@ -57,6 +58,7 @@ public class RecipeJsonUtils {
             JSONObject recipe = recipesArray.getJSONObject(id);
             String recipeName = recipe.getString(JSON_RECIPE_NAME_KEY);
             int recipeServings = recipe.getInt(JSON_RECIPE_SERVINGS_KEY);
+            String recipeImageUrl = recipe.getString(JSON_RECIPE_IMAGE_KEY);
 
             JSONArray ingredients = recipe.getJSONArray(JSON_RECIPE_INGREDIENTS_KEY);
             RecipeIngredient[] recipeIngredients = getIngredientsFromJson(context, ingredients);
@@ -64,8 +66,10 @@ public class RecipeJsonUtils {
             JSONArray steps = recipe.getJSONArray(JSON_RECIPE_STEPS_KEY);
             RecipeStep[] recipeSteps = getStepsFromJson(context, steps);
 
-            String photoUrl = photoUrls.get(recipeName)[0] + LARGE_PHOTO_TYPE;
-            String thumbnailUrl = photoUrls.get(recipeName)[0] + THUMBNAIL_PHOTO_TYPE;
+            if (recipeImageUrl.equals("")) {
+                recipeImageUrl = photoUrls.get(recipeName)[0] + LARGE_PHOTO_TYPE;
+            }
+            String recipethumbnailUrl = photoUrls.get(recipeName)[0] + THUMBNAIL_PHOTO_TYPE;
             String blurb = photoUrls.get(recipeName)[1];
 
             Recipe card = new Recipe(id,
@@ -73,11 +77,12 @@ public class RecipeJsonUtils {
                     recipeIngredients,
                     recipeSteps,
                     recipeServings,
-                    photoUrl,
-                    thumbnailUrl,
+                    recipeImageUrl,
+                    recipethumbnailUrl,
                     blurb);
             recipes[id] = card;
         }
+
         return recipes;
     }
 
@@ -111,11 +116,17 @@ public class RecipeJsonUtils {
             String stepVideoUrl = stepJson.getString(JSON_RECIPE_VIDEO_URL_KEY);
             String stepThumbnailUrl = stepJson.getString(JSON_RECIPE_THUMBNAIL_URL_KEY);
 
-            // There's one step where the video URL is in the wrong JSON field
-            if (stepVideoUrl.equals("") && stepThumbnailUrl.endsWith(MP4_FILE_TYPE)) {
-                stepVideoUrl = stepThumbnailUrl;
-                stepThumbnailUrl = "";
-            }
+            // There's one step where the video URL is in the wrong JSON field, and the commented-
+            // out lines below are how I originally handled this. However, when I submitted this
+            // project, my reviewer said that I was required to change this, specifically
+            // "thumbnailUrl should be handled only as an image. Though some thumbnailUrl contain
+            // .mp4 link, it is an intentional error to induce error handling thinking."
+            // Personally, I think what I did below was error handling, but I'm required to change
+            // it then I'm required to change it. :-)
+//            if (stepVideoUrl.equals("") && stepThumbnailUrl.endsWith(MP4_FILE_TYPE)) {
+//                stepVideoUrl = stepThumbnailUrl;
+//                stepThumbnailUrl = "";
+//            }
 
             RecipeStep step = new RecipeStep(stepId,
                     stepShortDescription,

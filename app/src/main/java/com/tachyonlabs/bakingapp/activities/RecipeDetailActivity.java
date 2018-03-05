@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 public class RecipeDetailActivity extends AppCompatActivity implements RecipeDetailFragment.OnStepClickListener {
     private static final String TAG = RecipeDetailActivity.class.getSimpleName();
-    private Recipe recipe;
+    private Recipe mRecipe;
     private boolean mTwoPane;
 
     @Override
@@ -22,9 +22,13 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail);
         Intent callingIntent = getIntent();
-        recipe = callingIntent.getParcelableExtra(getString(R.string.recipe_key));
+        mRecipe = callingIntent.getParcelableExtra(getString(R.string.recipe_key));
 
         // if we're on a tablet, we're doing a two-pane layout
+        // I know there are many ways to check for tablet vs phone, and some disagreements on
+        // which method is best, but this is the method that was used in the Android Me app
+        // in Part 4 of the Fast Track curriculum, Lesson 2: Fragments, so I'm thinking this is
+        // a Udacity-approved method
         if (findViewById(R.id.recipe_detail_fragment_for_tablet) != null) {
             mTwoPane = true;
             TextView recipeDetailName = findViewById(R.id.tv_recipe_detail_name);
@@ -40,7 +44,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
             recipeStepFragment.updateStepNumberDescriptionAndVideo(whichStep);
         } else {
             Intent intent = new Intent(this, RecipeStepActivity.class);
-            intent.putExtra(getString(R.string.recipe_key), recipe);
+            intent.putExtra(getString(R.string.recipe_key), mRecipe);
             intent.putExtra(getString(R.string.which_step_key), whichStep);
             startActivity(intent);
         }

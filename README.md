@@ -53,4 +53,6 @@ The JSON for the recipes contains URLs for videos illustrating some of the steps
 
 * isNetworkAvailable() method for determining whether we have network and internet connections courtesy of [https://guides.codepath.com/android/Sending-and-Managing-Network-Requests](https://guides.codepath.com/android/Sending-and-Managing-Network-Requests)
 
+* Some code for properly releasing and initializing ExoPlayer in lifecycle events adapted from [Google's ExoPlayer demo code](https://github.com/google/ExoPlayer/blob/release-v2/demos/main/src/main/java/com/google/android/exoplayer2/demo/PlayerActivity.java)
+
 * The card drawable used in the widget is based on [https://gist.github.com/MarsVard/8297976](https://gist.github.com/MarsVard/8297976)

@@ -32,7 +32,7 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter.
     OnStepClickListener mStepCallback;
     private RecyclerView mRecipeStepsRecyclerView;
     private RecipeStepAdapter mRecipeStepAdapter;
-    private Recipe recipe;
+    private Recipe mRecipe;
 
     public RecipeDetailFragment() {
     }
@@ -40,19 +40,21 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter.
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
         // This makes sure that the host activity has implemented the callback interface
         // If not, it throws an exception
         try {
             mStepCallback = (OnStepClickListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + " must implement OnStepClickListener");
+                    + getString(R.string.must_implement_onstepclicklistener));
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
         ImageView ivRecipeDetailPhoto = rootView.findViewById(R.id.iv_recipe_detail_photo);
@@ -70,38 +72,38 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter.
 
         if (savedInstanceState == null) {
             Intent callingIntent = getActivity().getIntent();
-            recipe = callingIntent.getParcelableExtra(getString(R.string.recipe_key));
+            mRecipe = callingIntent.getParcelableExtra(getString(R.string.recipe_key));
 
             // save selected recipe details to SharedPreferences for the widget to use
             SharedPreferences sharedPreferencesForWidget = getContext().getSharedPreferences(getString(R.string.pref_file_name), Context.MODE_PRIVATE | Context.MODE_MULTI_PROCESS);
             SharedPreferences.Editor editor = sharedPreferencesForWidget.edit();
-            editor.putString(getString(R.string.recipe_name_key), recipe.getName());
+            editor.putString(getString(R.string.recipe_name_key), mRecipe.getName());
             editor.putString(getString(R.string.recipe_ingredients_key), getAndFormatIngredients());
-            editor.putString(getString(R.string.recipe_thumbnail_url_key), recipe.getThumbnailUrl());
+            editor.putString(getString(R.string.recipe_thumbnail_url_key), mRecipe.getThumbnailUrl());
             editor.commit();
 
             // and let the widget know there is a new most-recently-selected recipe to display
             Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
             getContext().sendBroadcast(intent);
         } else {
-            recipe = savedInstanceState.getParcelable(getString(R.string.recipe_key));
+            mRecipe = savedInstanceState.getParcelable(getString(R.string.recipe_key));
         }
 
         Picasso.with(getContext())
-                .load(recipe.getImageUrl())
+                .load(mRecipe.getImageUrl())
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .error(R.drawable.ic_launcher_foreground)
                 .into(ivRecipeDetailPhoto);
 
-        tvRecipeName.setText(recipe.getName());
+        tvRecipeName.setText(mRecipe.getName());
 
-        String servingsDesc = String.format("%d serving%s", recipe.getServings(), recipe.getServings() != 1 ? "s" : "");
+        String servingsDesc = String.format("%d serving%s", mRecipe.getServings(), mRecipe.getServings() != 1 ? "s" : "");
         tvRecipeServings.setText(servingsDesc);
         tvIngredientsList.setText(getAndFormatIngredients());
         ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        ab.setTitle(recipe.getName());
+        ab.setTitle(mRecipe.getName());
 
-        mRecipeStepAdapter.setRecipeStepData(recipe.getSteps());
+        mRecipeStepAdapter.setRecipeStepData(mRecipe.getSteps());
 
         // start with the scrollview scrolled all the way up if we're not restoring a savedInstanceState
         if (savedInstanceState == null) {
@@ -112,7 +114,7 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter.
     }
 
     private String getAndFormatIngredients() {
-        RecipeIngredient[] recipeIngredients = recipe.getIngredients();
+        RecipeIngredient[] recipeIngredients = mRecipe.getIngredients();
         String[] ingredients = new String[recipeIngredients.length];
         for (int i = 0; i < ingredients.length; i++) {
             ingredients[i] = recipeIngredients[i].getQuantityUnitNameString();
@@ -122,7 +124,7 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter.
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelable(getString(R.string.recipe_key), recipe);
+        outState.putParcelable(getString(R.string.recipe_key), mRecipe);
         super.onSaveInstanceState(outState);
     }
 

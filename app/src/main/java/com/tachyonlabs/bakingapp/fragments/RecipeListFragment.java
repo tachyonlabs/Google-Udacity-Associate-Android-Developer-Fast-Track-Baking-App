@@ -30,9 +30,9 @@ public class RecipeListFragment extends Fragment implements RecipeCardAdapter.Re
     RecipeListFragment.OnRecipeClickListener mRecipeCallback;
     private RecyclerView mRecyclerView;
     private RecipeCardAdapter mRecipeCardAdapter;
-    private TextView tvErrorMessageDisplay;
-    private ProgressBar pbLoadingIndicator;
-    private Recipe[] recipes;
+    private TextView mTvErrorMessageDisplay;
+    private ProgressBar mPbLoadingIndicator;
+    private Recipe[] mRecipes;
 
     public RecipeListFragment() {
     }
@@ -40,13 +40,14 @@ public class RecipeListFragment extends Fragment implements RecipeCardAdapter.Re
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
         // This makes sure that the host activity has implemented the callback interface
         // If not, it throws an exception
         try {
             mRecipeCallback = (RecipeListFragment.OnRecipeClickListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + " must implement OnRecipeClickListener");
+                    + getString(R.string.must_implement_onrecipeclicklistener));
         }
     }
 
@@ -58,6 +59,7 @@ public class RecipeListFragment extends Fragment implements RecipeCardAdapter.Re
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_recipe_list, container, false);
 
@@ -72,15 +74,16 @@ public class RecipeListFragment extends Fragment implements RecipeCardAdapter.Re
         mRecyclerView.setLayoutManager(layoutManager);
         mRecipeCardAdapter = new RecipeCardAdapter(this);
         mRecyclerView.setAdapter(mRecipeCardAdapter);
-        tvErrorMessageDisplay = rootView.findViewById(R.id.tv_error_message_display);
-        pbLoadingIndicator = rootView.findViewById(R.id.pb_loading_indicator);
-        pbLoadingIndicator.getIndeterminateDrawable()
+        mTvErrorMessageDisplay = rootView.findViewById(R.id.tv_error_message_display);
+        mPbLoadingIndicator = rootView.findViewById(R.id.pb_loading_indicator);
+        mPbLoadingIndicator.getIndeterminateDrawable()
                 .setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+
         if (savedInstanceState == null) {
             loadRecipes();
         } else {
-            recipes = (Recipe[]) (savedInstanceState.getParcelableArray(getString(R.string.recipes_key)));
-            mRecipeCardAdapter.setRecipeCardData(recipes);
+            mRecipes = (Recipe[]) (savedInstanceState.getParcelableArray(getString(R.string.recipes_key)));
+            mRecipeCardAdapter.setRecipeCardData(mRecipes);
         }
 
         return rootView;
@@ -88,7 +91,7 @@ public class RecipeListFragment extends Fragment implements RecipeCardAdapter.Re
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelableArray(getString(R.string.recipes_key), recipes);
+        outState.putParcelableArray(getString(R.string.recipes_key), mRecipes);
         super.onSaveInstanceState(outState);
     }
 
@@ -97,14 +100,14 @@ public class RecipeListFragment extends Fragment implements RecipeCardAdapter.Re
     }
 
     private void showRecipeCards() {
-        tvErrorMessageDisplay.setVisibility(View.INVISIBLE);
+        mTvErrorMessageDisplay.setVisibility(View.INVISIBLE);
         mRecyclerView.setVisibility(View.VISIBLE);
     }
 
     private void showErrorMessage(String errorMessage) {
         mRecyclerView.setVisibility(View.INVISIBLE);
-        tvErrorMessageDisplay.setText(errorMessage);
-        tvErrorMessageDisplay.setVisibility(View.VISIBLE);
+        mTvErrorMessageDisplay.setText(errorMessage);
+        mTvErrorMessageDisplay.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -121,7 +124,7 @@ public class RecipeListFragment extends Fragment implements RecipeCardAdapter.Re
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pbLoadingIndicator.setVisibility(View.VISIBLE);
+            mPbLoadingIndicator.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -139,11 +142,12 @@ public class RecipeListFragment extends Fragment implements RecipeCardAdapter.Re
 
         @Override
         protected void onPostExecute(Recipe[] theRecipes) {
-            pbLoadingIndicator.setVisibility(View.INVISIBLE);
+            mPbLoadingIndicator.setVisibility(View.INVISIBLE);
+
             if (theRecipes != null) {
-                recipes = theRecipes;
+                mRecipes = theRecipes;
                 showRecipeCards();
-                mRecipeCardAdapter.setRecipeCardData(recipes);
+                mRecipeCardAdapter.setRecipeCardData(mRecipes);
             } else {
                 showErrorMessage(getString(R.string.no_data_received));
             }

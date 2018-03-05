@@ -32,7 +32,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -43,21 +42,19 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-
 public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListener {
     private static final String TAG = RecipeStepFragment.class.getSimpleName();
-    private static MediaSessionCompat mediaSession;
-    private Recipe recipe;
-    private RecipeStep[] recipeSteps;
-    private RecipeStep recipeStep;
-    private String recipeName;
-    private int whichStep;
-    private SimpleExoPlayer simpleExoPlayer;
-    private SimpleExoPlayerView simpleExoPlayerView;
-    private View rootView;
-    private Button btnNextStep;
-    private Button btnPreviousStep;
-    private long exoplayerPosition = 0;
+    private Recipe mRecipe;
+    private RecipeStep[] mRecipeSteps;
+    private RecipeStep mRecipeStep;
+    private String mRecipeName;
+    private int mWhichStep;
+    private SimpleExoPlayer mSimpleExoPlayer;
+    private SimpleExoPlayerView mSimpleExoPlayerView;
+    private View mRootView;
+    private Button mBtnNextStep;
+    private Button mBtnPreviousStep;
+    private long mExoplayerPosition = 0;
 
     public RecipeStepFragment() {
     }
@@ -66,23 +63,24 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        rootView = inflater.inflate(R.layout.fragment_recipe_step, container, false);
-        simpleExoPlayerView = rootView.findViewById(R.id.xo_recipe_step_videos);
-        simpleExoPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.black_rectangle));
+        mRootView = inflater.inflate(R.layout.fragment_recipe_step, container, false);
+        mSimpleExoPlayerView = mRootView.findViewById(R.id.xo_recipe_step_videos);
+        mSimpleExoPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.black_rectangle));
 
         // Initialize the player.
         initializePlayer();
-        simpleExoPlayer.addListener(this);
+        mSimpleExoPlayer.addListener(this);
 
-        btnNextStep = rootView.findViewById(R.id.btn_next_step);
-        btnPreviousStep = rootView.findViewById(R.id.btn_previous_step);
-        btnNextStep.setOnClickListener(new View.OnClickListener() {
+        // set up next and previous buttons to navigate between steps
+        mBtnNextStep = mRootView.findViewById(R.id.btn_next_step);
+        mBtnPreviousStep = mRootView.findViewById(R.id.btn_previous_step);
+        mBtnNextStep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 nextOrPreviousStep(v);
             }
         });
-        btnPreviousStep.setOnClickListener(new View.OnClickListener() {
+        mBtnPreviousStep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 nextOrPreviousStep(v);
@@ -92,75 +90,82 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
         if (savedInstanceState == null) {
             Intent callingIntent = getActivity().getIntent();
             if (callingIntent.hasExtra(getString(R.string.recipe_key))) {
-                recipe = (Recipe) callingIntent.getParcelableExtra(getString(R.string.recipe_key));
-                whichStep = callingIntent.getIntExtra(getString(R.string.which_step_key), 0);
+                mRecipe = (Recipe) callingIntent.getParcelableExtra(getString(R.string.recipe_key));
+                mWhichStep = callingIntent.getIntExtra(getString(R.string.which_step_key), 0);
             }
         } else {
-            recipe = savedInstanceState.getParcelable(getString(R.string.recipe_key));
-            whichStep = savedInstanceState.getInt(getString(R.string.which_step_key));
-            exoplayerPosition = savedInstanceState.getLong(getString(R.string.exoplayer_position_key));
+            mRecipe = savedInstanceState.getParcelable(getString(R.string.recipe_key));
+            mWhichStep = savedInstanceState.getInt(getString(R.string.which_step_key));
+            mExoplayerPosition = savedInstanceState.getLong(getString(R.string.exoplayer_position_key));
         }
 
-        recipeName = recipe.getName();
-        recipeSteps = recipe.getSteps();
-        recipeStep = recipeSteps[whichStep];
-        updateStepNumberDescriptionAndVideo(whichStep);
+        mRecipeName = mRecipe.getName();
+        mRecipeSteps = mRecipe.getSteps();
+        mRecipeStep = mRecipeSteps[mWhichStep];
+        updateStepNumberDescriptionAndVideo(mWhichStep);
 
-        return rootView;
+        return mRootView;
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelable(getString(R.string.recipe_key), recipe);
-        outState.putInt(getString(R.string.which_step_key), whichStep);
-        outState.putLong(getString(R.string.exoplayer_position_key), simpleExoPlayer.getCurrentPosition());
+        outState.putParcelable(getString(R.string.recipe_key), mRecipe);
+        outState.putInt(getString(R.string.which_step_key), mWhichStep);
+        if (mSimpleExoPlayer != null) {
+            outState.putLong(getString(R.string.exoplayer_position_key), mSimpleExoPlayer.getCurrentPosition());
+        } else {
+            outState.putLong(getString(R.string.exoplayer_position_key), mExoplayerPosition);
+        }
         super.onSaveInstanceState(outState);
     }
 
     private void initializePlayer() {
-        if (simpleExoPlayer == null) {
+        if (mSimpleExoPlayer == null) {
             // Create an instance of the ExoPlayer.
             TrackSelector trackSelector = new DefaultTrackSelector();
             LoadControl loadControl = new DefaultLoadControl();
-            simpleExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
-            simpleExoPlayerView.setPlayer(simpleExoPlayer);
+            mSimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
+            mSimpleExoPlayerView.setPlayer(mSimpleExoPlayer);
         }
     }
 
     public void nextOrPreviousStep(View view) {
         // if the user taps Next or Previous
-        if (view == btnPreviousStep) {
-            whichStep--;
+        if (view == mBtnPreviousStep) {
+            mWhichStep--;
         } else {
-            whichStep++;
+            mWhichStep++;
         }
-        updateStepNumberDescriptionAndVideo(whichStep);
+        // the next or previous step will have a different video or no video
+        mExoplayerPosition = 0;
+
+        updateStepNumberDescriptionAndVideo(mWhichStep);
     }
 
     public void updateStepNumberDescriptionAndVideo(int step) {
         // stop any currently-playing video
-        simpleExoPlayer.stop();
+        mSimpleExoPlayer.stop();
 
-        whichStep = step;
-        recipeStep = recipeSteps[step];
+        mWhichStep = step;
+        mRecipeStep = mRecipeSteps[step];
 
         if (step == 0) {
-            btnPreviousStep.setEnabled(false);
-            btnPreviousStep.setClickable(false);
-            btnPreviousStep.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDisabled));
+            mBtnPreviousStep.setEnabled(false);
+            mBtnPreviousStep.setClickable(false);
+            mBtnPreviousStep.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDisabled));
         } else {
-            btnPreviousStep.setEnabled(true);
-            btnPreviousStep.setClickable(true);
-            btnPreviousStep.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            mBtnPreviousStep.setEnabled(true);
+            mBtnPreviousStep.setClickable(true);
+            mBtnPreviousStep.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         }
-        if (step == recipeSteps.length - 1) {
-            btnNextStep.setEnabled(false);
-            btnNextStep.setClickable(false);
-            btnNextStep.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDisabled));
+        if (step == mRecipeSteps.length - 1) {
+            mBtnNextStep.setEnabled(false);
+            mBtnNextStep.setClickable(false);
+            mBtnNextStep.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDisabled));
         } else {
-            btnNextStep.setEnabled(true);
-            btnNextStep.setClickable(true);
-            btnNextStep.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            mBtnNextStep.setEnabled(true);
+            mBtnNextStep.setClickable(true);
+            mBtnNextStep.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         }
 
         // update the step number and description for the selected step
@@ -168,30 +173,30 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
         // doesn't have a step number in its description
         String stepNumberString = step > 0 ? String.format(" - Step %d", step) : " - Introduction";
         ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        ab.setTitle(recipeName + stepNumberString);
-        TextView tvStepDescription = rootView.findViewById(R.id.tv_step_description);
-        String stepDescription = (step > 0 ? "Step " : "") + recipeStep.getDescription();
+        ab.setTitle(mRecipeName + stepNumberString);
+        TextView tvStepDescription = mRootView.findViewById(R.id.tv_step_description);
+        String stepDescription = (step > 0 ? "Step " : "") + mRecipeStep.getDescription();
         tvStepDescription.setText(stepDescription);
 
         // update the video for the selected step
-        if (recipeStep.getVideoUrl().equals("")) {
+        if (mRecipeStep.getVideoUrl().equals("")) {
             // if the selected step has no video, don't show the player
-            simpleExoPlayerView.setVisibility(View.GONE);
+            mSimpleExoPlayerView.setVisibility(View.GONE);
         } else {
             if (!NetworkUtils.isNetworkAvailable(getContext())) {
                 // check for network before trying to download video -- if there's no connection,
                 // ExoPlayer just sits there trying to load without ever giving any feedback
                 fixYourInternetConnectionDialog();
-                simpleExoPlayerView.setVisibility(View.GONE);
+                mSimpleExoPlayerView.setVisibility(View.GONE);
             } else {
-                simpleExoPlayerView.setVisibility(View.VISIBLE);
+                mSimpleExoPlayerView.setVisibility(View.VISIBLE);
                 String userAgent = Util.getUserAgent(getContext(), getString(R.string.app_name));
-                MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(recipeStep.getVideoUrl()), new DefaultDataSourceFactory(
+                MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(mRecipeStep.getVideoUrl()), new DefaultDataSourceFactory(
                         getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
-                simpleExoPlayer.prepare(mediaSource);
+                mSimpleExoPlayer.prepare(mediaSource);
                 // to maintain time position in case of savedInstanceState != null; otherwise it's just 0
-                simpleExoPlayer.seekTo(exoplayerPosition);
-                simpleExoPlayer.setPlayWhenReady(true);
+                mSimpleExoPlayer.seekTo(mExoplayerPosition);
+                mSimpleExoPlayer.setPlayWhenReady(true);
             }
         }
     }
@@ -227,7 +232,7 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
 
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-        ProgressBar pbVideoLoadingIndicator = rootView.findViewById(R.id.pb_video_loading_indicator);
+        ProgressBar pbVideoLoadingIndicator = mRootView.findViewById(R.id.pb_video_loading_indicator);
         pbVideoLoadingIndicator.getIndeterminateDrawable()
                 .setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
         if (playbackState == SimpleExoPlayer.STATE_BUFFERING) {
@@ -246,14 +251,51 @@ public class RecipeStepFragment extends Fragment implements ExoPlayer.EventListe
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        if (Util.SDK_INT > 23) {
+            initializePlayer();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (Util.SDK_INT <= 23 || mSimpleExoPlayer == null) {
+            initializePlayer();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mSimpleExoPlayer != null) {
+            mExoplayerPosition = mSimpleExoPlayer.getCurrentPosition();
+            releasePlayer();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mSimpleExoPlayer != null) {
+            mExoplayerPosition = mSimpleExoPlayer.getCurrentPosition();
+            releasePlayer();
+        }
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
-        releasePlayer();
+        if (mSimpleExoPlayer != null) {
+            mExoplayerPosition = mSimpleExoPlayer.getCurrentPosition();
+            releasePlayer();
+        }
     }
 
     private void releasePlayer() {
-        simpleExoPlayer.stop();
-        simpleExoPlayer.release();
-        simpleExoPlayer = null;
+        mSimpleExoPlayer.stop();
+        mSimpleExoPlayer.release();
+        mSimpleExoPlayer = null;
     }
 }
